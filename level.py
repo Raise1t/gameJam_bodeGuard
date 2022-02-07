@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from block import Block
 
 class Level:
     def __init__(self):
@@ -14,9 +15,13 @@ class Level:
         self.create_map()
 
     def create_map(self):
-        for row in MAP_1:
-            print(row)
+        for row_index,row in enumerate(MAP_1):
+            for col_index, col in enumerate(row):
+                x = col_index * BLOCKSIZE
+                y = row_index * BLOCKSIZE
+                if col == 'o':
+                    Block((x,y),[self.visible_sprites])
 
     def run(self):
         #draw things
-        pass
+        self.visible_sprites.draw(self.display_surface)
