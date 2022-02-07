@@ -5,4 +5,4 @@ class player:
         self.__health = 100
         self.__food = 100
         self.__inventory = {}
-        self.__skin = ""
+        self.__skin = skin
