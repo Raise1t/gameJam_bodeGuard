@@ -17,6 +17,11 @@ class Player(pygame.sprite.Sprite):
         self._health = 100
         self._inventory = {}
         self.hitbox = self.rect.inflate(-10,0)
+        
+        #stats
+        self.stats = {'health': 100, 'attack': 10, 'speed': 5}
+        self.health = self.stats['health']
+        self.speed = self.stats['speed']
 
     #########################################################################
 

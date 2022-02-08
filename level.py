@@ -9,6 +9,7 @@ from wet_block import Wet_block
 from player import Player
 from tente import Tente
 from debug import debug
+from ui import UI
 
 class Level:
     def __init__(self):
@@ -23,6 +24,9 @@ class Level:
 
         #setup the sprite
         self.create_map()
+
+        #user interface
+        self.ui = UI()
 
     def create_map(self):
         for row_index,row in enumerate(MAP_1):
@@ -53,7 +57,7 @@ class Level:
         #self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
-        debug(self.player.direction)
+        self.ui.display(self.player)
 
     def interactEvent(self):
         for item in pygame.sprite.spritecollide(self.player, self.items_sprites, 1):
