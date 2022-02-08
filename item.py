@@ -11,10 +11,10 @@ class Item(pygame.sprite.Sprite):
         self._fuel = fuel
     
     def getName(self):
-        return self.name
+        return self._name
     
     def isConsumable(self):
-        return self.consumable
+        return self._consumable
     
     def isFuel(self) : 
-        return self.fuel
+        return self._fuel

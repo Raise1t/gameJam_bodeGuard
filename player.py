@@ -3,6 +3,7 @@ from curses import KEY_DOWN
 #from typing_extensions import Self
 import pygame
 from settings import *
+from item import Item
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, level, pos,groups,obstacle_sprites):
@@ -42,11 +43,11 @@ class Player(pygame.sprite.Sprite):
 
     def addToInventory(self, item):
         try:
-            self._inventory[item] += 1
-            print("You now have ", self._inventory[item], " of ", item)
+            self._inventory[item.getName()] += 1
+            print("You now have ", self._inventory[item.getName()], item.getName())
         except KeyError:
-            self._inventory[item] = 1
-            print("Created a spot for ", item)
+            self._inventory[item.getName()] = 1
+            print("Created a spot for ", item.getName())
     
     def removeFromInventory(self, item):
         self._inventory[item] -= 1
@@ -69,7 +70,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
         
         if key[pygame.K_j]:
-            self.__level.interactEvent(self.rect)
+            self.__level.interactEvent()
 
         
     
