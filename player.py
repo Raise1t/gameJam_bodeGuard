@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.speed = 4
         self.obstacle_sprites = obstacle_sprites
+        self.hitbox = self.rect.inflate(-10,-10)
 
     def input(self):
         key = pygame.key.get_pressed()
