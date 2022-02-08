@@ -15,6 +15,16 @@ class UI:
         current_rect.width = current_width
 
         pygame.draw.rect(self.display_surface,color,current_rect)
+        pygame.draw.rect(self.display_surface,UI_BORDER_COLOR, current_rect,2)
 
     def display(self,player):
-        self.show_bar(player.health, stats['health'], self.health_bar_rect, (255,0,0))
+        self.show_bar(player.health, player.stats['health'], self.health_bar_rect, (255,0,0))
+        self.selection_box(10,678)
+        self.selection_box(100,678)
+        self.selection_box(190,678)
+        self.selection_box(280,678)
+
+    def selection_box(self,left,top):
+        bg_rect = pygame.Rect(left,top,ITEM_BOX_SIZE,ITEM_BOX_SIZE)
+        pygame.draw.rect(self.display_surface,UI_BG_COLOR,bg_rect)
+        pygame.draw.rect(self.display_surface,UI_BORDER_COLOR,bg_rect,2)
