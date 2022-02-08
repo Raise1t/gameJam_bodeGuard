@@ -2,7 +2,7 @@ from distutils.log import debug
 from re import X
 import pygame
 from settings import *
-from block import Block
+from water_block import Water_block
 from player import Player
 from tente import Tente
 from grass import Grass
@@ -26,7 +26,7 @@ class Level:
                 x = col_index * BLOCKSIZE
                 y = row_index * BLOCKSIZE
                 if col == 'o':
-                    Block((x,y),[self.visible_sprites, self.obstacles_sprites])
+                    Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
                 if col == 'p':
                     X_p = x
                     Y_p = y
