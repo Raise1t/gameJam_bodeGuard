@@ -28,7 +28,9 @@ class Game:
     def lancer_jeu(self, screen):
 
         #code avec les initialisation du jeux et début
+
         self.level.run()
+
 
     #affichage de la page des commandes
     def affiche_command(self, screen):
@@ -39,7 +41,6 @@ class Game:
         screen.blit(image, (0,0))
 
         #bouton retour
-
         retour = pygame.image.load('texture/retour.png')
         retour = pygame.transform.scale(retour, (386,70))
         retour_rect = retour.get_rect()
@@ -148,7 +149,6 @@ class Game:
                 self.screen.blit(tuto, (860,587))
                 self.screen.blit(logo, (286,0))
 
-
             #maj écran
             pygame.display.flip()
 
@@ -172,6 +172,7 @@ class Game:
                     elif tuto_rect.collidepoint(event.pos):
                         #jeux en mode lancer
                         self.is_tuto = True
+
 
             #self.screen.fill((0,0,0))
             #self.level.run()
