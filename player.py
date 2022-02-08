@@ -40,7 +40,12 @@ class Player(pygame.sprite.Sprite):
     ###########################################################################
 
     def addToInventory(self, item):
-        self._inventory[item] += 1
+        try:
+            self._inventory[item] += 1
+            print("You now have ", self._inventory[item], " of ", item)
+        except KeyError:
+            self._inventory[item] = 1
+            print("Created a spot for ", item)
     
     def removeFromInventory(self, item):
         self._inventory[item] -= 1
