@@ -1,9 +1,9 @@
 class Item :
     
     def __init__(self, name, consumable, fuel) -> None:
-        self.__name = name
-        self.__consumable = consumable
-        self.__fuel = fuel
+        self._name = name
+        self._consumable = consumable
+        self._fuel = fuel
     
     def getName(self):
         return self.name

@@ -5,8 +5,9 @@ import pygame
 from settings import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,pos,groups,obstacle_sprites):
+    def __init__(self, level, pos,groups,obstacle_sprites):
         super().__init__(groups)
+        self.__level = level
         self.image = pygame.image.load('texture/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.direction = pygame.math.Vector2()
@@ -61,8 +62,8 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
         
-        if key[pygame.K_a]:
-            collect()
+        if key[pygame.K_j]:
+            self.__level.interactEvent(self.rect)
 
         
     

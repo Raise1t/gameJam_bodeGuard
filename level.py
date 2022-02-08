@@ -13,6 +13,7 @@ class Level:
         #sprite group
         self.visible_sprites = pygame.sprite.Group()
         self.obstacles_sprites = pygame.sprite.Group()
+        self.items_sprites = pygame.sprite.Group()
 
         #get game screen space
         self.display_surface = pygame.display.get_surface()
@@ -39,10 +40,19 @@ class Level:
                 if col == ' ':
                     Grass((x,y),[self.visible_sprites])
         Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
-        self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
+        self.player = Player(self, (X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
     def run(self):
         #draw things
         self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.update()
         debug(self.player.direction)
+
+    def interactEvent(self, playerRect):
+        for item in self.items_sprites:
+            if pygame.Rect.colliderect(playerRect, item):
+                self.player.addToInventory(item)
+                self.removeItem(item)
+    
+    def removeItem(self, item):
+        pass
