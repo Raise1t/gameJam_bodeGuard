@@ -2,8 +2,8 @@
 
 WIDTH = 1024 #of the window
 HEIGTH = 768 #   //
-FPS = 60
-BLOCKSIZE = 64 #the floor
+FPS = 120
+BLOCKSIZE = 96 #the floor
 
 # user interface
 BAR_HEIGHT = 20
