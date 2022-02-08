@@ -1,6 +1,12 @@
+from distutils.log import debug
+from re import X
 import pygame
 from settings import *
 from block import Block
+from player import Player
+from tente import Tente
+from grass import Grass
+from debug import debug
 
 class Level:
     def __init__(self):
@@ -20,8 +26,23 @@ class Level:
                 x = col_index * BLOCKSIZE
                 y = row_index * BLOCKSIZE
                 if col == 'o':
-                    Block((x,y),[self.visible_sprites])
+                    Block((x,y),[self.visible_sprites, self.obstacles_sprites])
+                if col == 'p':
+                    X_p = x
+                    Y_p = y
+                    Grass((x,y),[self.visible_sprites])
+                if col == 't':
+                    Grass((x,y),[self.visible_sprites])
+                    X_t = x
+                    Y_t = y
+                    
+                if col == ' ':
+                    Grass((x,y),[self.visible_sprites])
+        Tente((X_t,Y_t),[self.visible_sprites])
+        self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
     def run(self):
         #draw things
         self.visible_sprites.draw(self.display_surface)
+        self.visible_sprites.update()
+        debug(self.player.direction)
