@@ -3,9 +3,10 @@ from re import X
 import pygame
 from settings import *
 from water_block import Water_block
+from grass_block import Grass_block
+from wet_block import Wet_block
 from player import Player
 from tente import Tente
-from grass import Grass
 from debug import debug
 
 class Level:
@@ -27,17 +28,19 @@ class Level:
                 y = row_index * BLOCKSIZE
                 if col == 'o':
                     Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
+                if col == 'w':
+                    Wet_block((x,y),[self.visible_sprites])
                 if col == 'p':
                     X_p = x
                     Y_p = y
-                    Grass((x,y),[self.visible_sprites])
+                    Grass_block((x,y),[self.visible_sprites])
                 if col == 't':
-                    Grass((x,y),[self.visible_sprites])
+                    Grass_block((x,y),[self.visible_sprites])
                     X_t = x
                     Y_t = y
                     
                 if col == ' ':
-                    Grass((x,y),[self.visible_sprites])
+                    Grass_block((x,y),[self.visible_sprites])
         Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
         self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
