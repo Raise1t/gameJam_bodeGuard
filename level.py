@@ -2,6 +2,7 @@ from distutils.log import debug
 from re import X
 import pygame
 from settings import *
+from speed_potion import SpeedPotion
 from water_block import Water_block
 from player import Player
 from tente import Tente
@@ -40,6 +41,7 @@ class Level:
                 if col == ' ':
                     Grass((x,y),[self.visible_sprites])
         Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
+        SpeedPotion((120, 120), [self.visible_sprites, self.items_sprites])
         self.player = Player(self, (X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
     def run(self):

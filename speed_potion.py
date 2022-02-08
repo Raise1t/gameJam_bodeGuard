@@ -1,0 +1,7 @@
+from item import Item
+
+class SpeedPotion(Item):
+
+    def __init__(self, pos, group) -> None:
+        super().__init__(pos, group, "Potion of swiftness", False, False)
+        self.__speedMultiplier = 1.3
