@@ -1,11 +1,3 @@
-#class player:
-
-    #def __init__(self, name, skin):
-    #    self.__name = name
-    #    self.__health = 100
-    #    self.__food = 100
-    #    self.__inventory = {}
-    #    self.__skin = ""
 from ast import If
 from curses import KEY_DOWN
 #from typing_extensions import Self
@@ -21,6 +13,7 @@ class Player(pygame.sprite.Sprite):
         self._speed = 5
         self.obstacle_sprites = obstacle_sprites
         self._health = 100
+        self._inventory = {}
 
     #########################################################################
 
@@ -45,11 +38,18 @@ class Player(pygame.sprite.Sprite):
 
     ###########################################################################
 
+    def addToInventory(self, item):
+        self._inventory[item] += 1
+    
+    def removeFromInventory(self, item):
+        self._inventory[item] -= 1
+    
+
     def input(self):
         key = pygame.key.get_pressed()
-        if key[pygame.K_z]:
+        if key[pygame.K_z] and not key[pygame.K_s]:
             self.direction.y = -1
-        elif key[pygame.K_s]:
+        elif key[pygame.K_s] and not key[pygame.K_z]:
             self.direction.y = 1
         else:
             self.direction.y = 0
@@ -60,6 +60,11 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = -1
         else:
             self.direction.x = 0
+        
+        if key[pygame.K_a]:
+            collect()
+
+        
     
     def move(self, speed):
         if self.direction.magnitude() != 0:
