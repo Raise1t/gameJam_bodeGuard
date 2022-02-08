@@ -1,11 +1,3 @@
-#class player:
-
-    #def __init__(self, name, skin):
-    #    self.__name = name
-    #    self.__health = 100
-    #    self.__food = 100
-    #    self.__inventory = {}
-    #    self.__skin = ""
 from curses import KEY_DOWN
 #from typing_extensions import Self
 import pygame
@@ -17,9 +9,14 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('texture/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.direction = pygame.math.Vector2()
-        self.speed = 4
+
         self.obstacle_sprites = obstacle_sprites
         self.hitbox = self.rect.inflate(-10,0)
+
+        #stats
+        self.stats = {'health': 100, 'attack': 10, 'speed': 5}
+        self.health = self.stats['health']
+        self.speed = self.stats['speed']
 
     def input(self):
         key = pygame.key.get_pressed()
@@ -75,8 +72,6 @@ class Player(pygame.sprite.Sprite):
                     if self.direction.y < 0:
                         #self.rect.top = sprite.rect.bottom
                         self.hitbox.top = sprite.hitbox.bottom
-
-
 
     def update(self):
         self.input()
