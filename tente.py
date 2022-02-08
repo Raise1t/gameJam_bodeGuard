@@ -7,4 +7,5 @@ class Tente(pygame.sprite.Sprite):
         self.image = pygame.image.load('texture/tente.png').convert_alpha()
         #pygame.transform.scale2x(self.image)
         self.rect = self.image.get_rect(topleft = pos)
+        self.hitbox = self.rect.inflate(-40,-40)
         
