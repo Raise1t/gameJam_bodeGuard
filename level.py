@@ -9,6 +9,7 @@ from player import Player
 from tente import Tente
 from debug import debug
 from ui import UI
+import time
 
 class Level:
     def __init__(self):
@@ -25,6 +26,10 @@ class Level:
 
         #user interface
         self.ui = UI()
+
+        # day n night
+        self.day_duration = DAY_DURATION
+        self.night_duration = NIGHT_DURATION
 
     def create_map(self):
         for row_index,row in enumerate(MAP_1):

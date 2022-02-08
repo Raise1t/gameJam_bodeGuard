@@ -14,6 +14,10 @@ ITEM_BOX_SIZE = 80
 UI_BG_COLOR = 100,100,100
 UI_BORDER_COLOR = 0,0,0
 
+#day n night
+DAY_DURATION = 2
+NIGHT_DURATION = 10
+
 # number of tile 26 x 25
 MAP_1 = [
 ['o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o'],
