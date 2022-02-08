@@ -38,7 +38,7 @@ class Level:
                     
                 if col == ' ':
                     Grass((x,y),[self.visible_sprites])
-        Tente((X_t,Y_t),[self.visible_sprites])
+        Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
         self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
     def run(self):
