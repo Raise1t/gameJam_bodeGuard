@@ -45,7 +45,7 @@ class Level:
                 if col == ' ':
                     Grass_block((x,y),[self.visible_sprites])
         Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
-        SpeedPotion((1700, 1400), [self.visible_sprites, self.items_sprites])
+        SpeedPotion((2100, 1450), [self.visible_sprites, self.items_sprites])
         self.player = Player(self, (X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
     def run(self):

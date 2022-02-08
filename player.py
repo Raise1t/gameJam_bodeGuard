@@ -47,7 +47,8 @@ class Player(pygame.sprite.Sprite):
             print("You now have ", self._inventory[item.getName()], item.getName())
         except KeyError:
             self._inventory[item.getName()] = 1
-            print("Created a spot for ", item.getName())
+            print("Created a spot for", item.getName())
+            print("You now have", self._inventory[item.getName()], item.getName())
     
     def removeFromInventory(self, item):
         self._inventory[item] -= 1
