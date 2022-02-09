@@ -72,15 +72,11 @@ class Player(Entity):
             print("Created a slot for", item.getName())
             print("You now have", self._inventory[item.getName()], item.getName())
     
-    def removeFromInventory(self, slot):
-        if len(self._inventory) > slot:
-            item = self.getItemNameFromSlot(slot)
+    def removeFromInventory(self, item):
             if self._inventory[item] > 1:
                 self._inventory[item] -= 1
             else:
                 del self._inventory[item]
-
-            self.__level.throwEvent(item, (self.hitbox.x, self.hitbox.y))
         
     
     def getItemNameFromSlot(self, slot) -> str :
@@ -115,8 +111,12 @@ class Player(Entity):
                 self.__level.interactEvent()
             else:
                 Item.items[self.getItemNameFromSlot(self._selectedSlot)].useItem(self)
+
         if key[pygame.K_r]:
-            self.removeFromInventory(self._selectedSlot)
+            if len(self._inventory) > self._selectedSlot:
+                item = self.getItemNameFromSlot(self._selectedSlot)
+                self.removeFromInventory(item)
+                self.__level.throwEvent(item, (self.hitbox.x, self.hitbox.y))
         
         if key[pygame.K_i]:
             self.selectedSlot = self.selectedSlot - 1
