@@ -9,7 +9,11 @@ from player import Player
 from tente import Tente
 from debug import debug
 from ui import UI
+<<<<<<< HEAD
 import time
+=======
+from mob import Mob
+>>>>>>> main
 
 class Level:
     def __init__(self):
@@ -44,6 +48,10 @@ class Level:
                     X_p = x
                     Y_p = y
                     Grass_block((x,y),[self.visible_sprites])
+                if col == 'm':
+                    X_m = x
+                    Y_m = y
+                    Grass_block((x,y),[self.visible_sprites])
                 if col == 't':
                     Grass_block((x,y),[self.visible_sprites])
                     X_t = x
@@ -51,6 +59,8 @@ class Level:
                     
                 if col == ' ':
                     Grass_block((x,y),[self.visible_sprites])
+
+        Mob((X_m,Y_m),[self.visible_sprites],self.obstacles_sprites)
         Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
         self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
