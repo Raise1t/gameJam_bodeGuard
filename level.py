@@ -39,6 +39,8 @@ class Level:
         self.day_pass = False
 
     def create_map(self):
+        X_m =[]
+        Y_m = []
         for row_index,row in enumerate(MAP_1):
             for col_index, col in enumerate(row):
                 x = col_index * BLOCKSIZE
@@ -52,8 +54,8 @@ class Level:
                     Y_p = y
                     Grass_block((x,y),[self.visible_sprites])
                 if col == 'm':
-                    X_m = x
-                    Y_m = y
+                    X_m.append(x)
+                    Y_m.append(y)
                     Grass_block((x,y),[self.visible_sprites])
                 if col == 't':
                     Grass_block((x,y),[self.visible_sprites])
@@ -62,7 +64,11 @@ class Level:
                     
                 if col == ' ':
                     Grass_block((x,y),[self.visible_sprites])
-        self.entity_list.append(Mob1((X_m,Y_m),[self.visible_sprites], self.obstacles_sprites))
+        i =0
+        for mob in X_m:
+            self.entity_list.append(Mob1((X_m[i],Y_m[i]),[self.visible_sprites], self.obstacles_sprites))
+            i+=1
+
         Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
         self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
         self.entity_list.append(self.player)
