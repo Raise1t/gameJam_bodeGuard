@@ -82,6 +82,7 @@ class Player(pygame.sprite.Sprite):
     
     def getItemNameFromSlot(self, slot) -> str :
         count = 0
+        name = ""
         for i in self._inventory.keys():
             if count == slot:
                 name = i
@@ -115,6 +116,14 @@ class Player(pygame.sprite.Sprite):
             self.selectedSlot = self.selectedSlot - 1
         if key[pygame.K_o]:
             self.selectedSlot = self.selectedSlot + 1
+        if key[pygame.K_AMPERSAND]:
+            self.selectedSlot = 0
+        if key[233]:
+            self.selectedSlot = 1
+        if key[pygame.K_QUOTEDBL]:
+            self.selectedSlot = 2
+        if key[pygame.K_QUOTE]:
+            self.selectedSlot = 3
         
     
     def move(self, speed):

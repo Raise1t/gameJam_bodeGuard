@@ -6,6 +6,7 @@ class UI:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
         self.health_bar_rect = pygame.Rect(10,10,HEALTH_BAR_WIDTH,BAR_HEIGHT)
+        self.__font = pygame.font.SysFont("monospace", 20, bold = True)
 
     def show_bar(self, current, max_amount, bg_rect, color):
         pygame.draw.rect(self.display_surface,UI_BG_COLOR, bg_rect )
@@ -35,7 +36,8 @@ class UI:
 
     def displayInventory(self, player):
         x = 17
-        for item in player.getInventory():
-            rect = pygame.Surface.blit(self.display_surface, pygame.transform.rotozoom(Item.items[item].getImage(), 0, 2), (x, 684))
+        for key, value in player.getInventory().items():
+            pygame.Surface.blit(self.display_surface, pygame.transform.rotozoom(Item.items[key].getImage(), 0, 2), (x, 684))
+            self.display_surface.blit(self.__font.render(str(value), 1, (0, 0, 0)), (x+45, 730))
             x += 90
 
