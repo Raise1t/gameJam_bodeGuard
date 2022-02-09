@@ -4,10 +4,8 @@ class Item(pygame.sprite.Sprite):
 
     items = {}
     
-    def __init__(self, pos, group, name, consumable, fuel) -> None:
+    def __init__(self, group, name, consumable, fuel) -> None:
         super().__init__(group)
-        self.image = pygame.image.load('texture/speed_potion.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft = pos)
         self._name = name
         self._consumable = consumable
         self._fuel = fuel
