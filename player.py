@@ -16,17 +16,16 @@ class Player(Entity):
         self.image = pygame.image.load('texture/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.direction = pygame.math.Vector2()
-        self._speed = 4
         self.obstacle_sprites = obstacle_sprites
-        self._health = 100
         self._inventory = {}
         self._selectedSlot = 0
         self.hitbox = self.rect.inflate(-10,0)
         
         #stats
         self.stats = {'health': 100, 'attack': 10, 'speed': 8}
-        self.health = self.stats['health']
-        self.speed = self.stats['speed']
+        self._health = self.stats['health']
+        self._speed = self.stats['speed']
+        self._effects = {'Speed' : False, 'Strength' : False, 'Crack' : False}
 
     #########################################################################
 
@@ -57,6 +56,10 @@ class Player(Entity):
     def selectedSlot(self, newSlot):
         if newSlot >= 0 and newSlot < 4:
             self._selectedSlot = newSlot
+
+    @property
+    def effects(self):
+        return self._effects
     
     def getInventory(self):
         return self._inventory
@@ -88,6 +91,11 @@ class Player(Entity):
             count+=1
         return name
 
+    def addEffect(self, effect):
+        self._effects[effect] = True
+    
+    def removeEffect(self, effect):
+        self._effects[effect] = False
 
 
     def input(self):
@@ -107,10 +115,11 @@ class Player(Entity):
             self.direction.x = 0
         
         if key[pygame.K_j]:
-            if self.getItemNameFromSlot(self._selectedSlot) == "" or not Item.items[self.getItemNameFromSlot(self._selectedSlot)].isConsumable:
+            item = self.getItemNameFromSlot(self._selectedSlot)
+            if item == "" or not Item.items[item].isConsumable:
                 self.__level.interactEvent()
             else:
-                Item.items[self.getItemNameFromSlot(self._selectedSlot)].useItem(self)
+                Item.items[item].useItem(self)
 
         if key[pygame.K_r]:
             if len(self._inventory) > self._selectedSlot:
