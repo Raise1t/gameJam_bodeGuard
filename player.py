@@ -7,7 +7,7 @@ from settings import *
 from item import Item
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, level, pos,groups,obstacle_sprites):
+    def __init__(self, level, pos,groups,obstacle_sprites) -> None:
         super().__init__(groups)
         self.__level = level
         self.image = pygame.image.load('texture/player.png').convert_alpha()
@@ -60,7 +60,7 @@ class Player(pygame.sprite.Sprite):
 
     ###########################################################################
 
-    def addToInventory(self, item):
+    def addToInventory(self, item) -> None :
         try:
             self._inventory[item.getName()] += 1
             print("You now have ", self._inventory[item.getName()], item.getName())
@@ -69,8 +69,25 @@ class Player(pygame.sprite.Sprite):
             print("Created a slot for", item.getName())
             print("You now have", self._inventory[item.getName()], item.getName())
     
-    def removeFromInventory(self, item):
-        self._inventory[item] -= 1
+    def removeFromInventory(self, slot):
+        if len(self._inventory) > slot:
+            item = self.getItemNameFromSlot(slot)
+            if self._inventory[item] > 1:
+                self._inventory[item] -= 1
+            else:
+                del self._inventory[item]
+
+            self.__level.throwEvent(item, (self.hitbox.x, self.hitbox.y))
+        
+    
+    def getItemNameFromSlot(self, slot) -> str :
+        count = 0
+        for i in self._inventory.keys():
+            if count == slot:
+                name = i
+            count+=1
+        return name
+
 
 
     def input(self):
@@ -92,7 +109,7 @@ class Player(pygame.sprite.Sprite):
         if key[pygame.K_j]:
             self.__level.interactEvent()
         if key[pygame.K_r]:
-            self.__level.throwEvent()
+            item = self.removeFromInventory(self._selectedSlot)
         
         if key[pygame.K_i]:
             self.selectedSlot = self.selectedSlot - 1
