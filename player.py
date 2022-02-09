@@ -4,11 +4,12 @@ from operator import getitem
 from xxlimited import new
 #from typing_extensions import Self
 import pygame
+from entity import Entity
 from settings import *
-from item import Item
+from debug import debug
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, level, pos,groups,obstacle_sprites) -> None:
+class Player(Entity):
+    def __init__(self,pos,groups,obstacle_sprites) -> None:
         super().__init__(groups)
         self.__level = level
         self.image = pygame.image.load('texture/player.png').convert_alpha()
@@ -22,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.hitbox = self.rect.inflate(-10,0)
         
         #stats
-        self.stats = {'health': 100, 'attack': 10, 'speed': 5}
+        self.stats = {'health': 100, 'attack': 10, 'speed': 8}
         self.health = self.stats['health']
         self.speed = self.stats['speed']
 
@@ -170,5 +171,7 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.hitbox.bottom
 
     def update(self):
+        if pygame.time.get_ticks() >= DAY_DURATION:
+            self.image = pygame.image.load('texture/player_night.png').convert_alpha()
         self.input()
         self.move(self.speed)

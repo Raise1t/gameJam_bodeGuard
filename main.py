@@ -2,6 +2,8 @@ import pygame, sys
 from settings import *
 from debug import debug
 from level import Level
+import time
+
 
 class Game:
     def __init__(self):
@@ -11,7 +13,6 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
         pygame.display.set_caption('BODE GUARD')
         self.clock = pygame.time.Clock()
-
 
         #backgroud du menu principale
         self.bg = pygame.image.load('texture/bg_menu.jpg')
@@ -87,6 +88,8 @@ class Game:
 
     
     def run(self):
+        self.clock_sec = time.gmtime().tm_sec
+        self.temp = self.clock_sec
         while True:
 
 
@@ -178,6 +181,7 @@ class Game:
             #self.level.run()
             #pygame.display.update()
             self.clock.tick(FPS)
+
 
 
 
