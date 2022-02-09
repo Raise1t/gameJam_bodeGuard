@@ -7,9 +7,10 @@ import pygame
 from entity import Entity
 from settings import *
 from debug import debug
+from item import Item
 
 class Player(Entity):
-    def __init__(self,pos,groups,obstacle_sprites) -> None:
+    def __init__(self,level,pos,groups,obstacle_sprites) -> None:
         super().__init__(groups)
         self.__level = level
         self.image = pygame.image.load('texture/player.png').convert_alpha()
