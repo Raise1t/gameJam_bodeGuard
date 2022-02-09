@@ -1,5 +1,6 @@
 from ast import If
 from curses import KEY_DOWN
+from operator import getitem
 from xxlimited import new
 #from typing_extensions import Self
 import pygame
@@ -108,9 +109,12 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
         
         if key[pygame.K_j]:
-            self.__level.interactEvent()
+            if self.getItemNameFromSlot(self._selectedSlot) == "" or not Item.items[self.getItemNameFromSlot(self._selectedSlot)].isConsumable:
+                self.__level.interactEvent()
+            else:
+                Item.items[self.getItemNameFromSlot(self._selectedSlot)].useItem(self)
         if key[pygame.K_r]:
-            item = self.removeFromInventory(self._selectedSlot)
+            self.removeFromInventory(self._selectedSlot)
         
         if key[pygame.K_i]:
             self.selectedSlot = self.selectedSlot - 1
