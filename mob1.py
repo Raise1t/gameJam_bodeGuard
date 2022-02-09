@@ -3,6 +3,7 @@ import pygame
 from settings import *
 from entity import Entity
 from debug import debug
+from player import Player
 
 class Mob1(Entity):
     def __init__(self, pos,groups, obstacle_sprites):
@@ -15,6 +16,7 @@ class Mob1(Entity):
 
         self.image = pygame.image.load('texture/player2.png').convert_alpha()
         self.stats = {'health': 100, 'attack': 10, 'speed': 3}
+        self.attack = self.stats['attack']
         self.health = self.stats['health']
         self.speed = self.stats['speed']
 
@@ -62,6 +64,9 @@ class Mob1(Entity):
             self.attack_time = pygame.time.get_ticks()
             self.can_attack =False
             self.attack_cooldown()
+            self.attack_player(player)
+            
+            
 
         elif self.status == 'move':
             self.direction = self.get_player_distance_direction(player)[1]
@@ -84,3 +89,7 @@ class Mob1(Entity):
                 self.can_attack = True
         else:
             print('attack')
+
+    def attack_player(self, player):
+        player.lost_life(self.attack)
+    

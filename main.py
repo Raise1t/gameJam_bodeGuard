@@ -25,7 +25,7 @@ class Game:
         self.is_tuto = False
 
 
-    #maj des composants dés qu'ils sont lancés
+    #maj des composants dés qu'ils sont lancészzzz
     def lancer_jeu(self, screen):
 
         #code avec les initialisation du jeux et début
@@ -85,6 +85,8 @@ class Game:
     
         pass
 
+    def set_is_playing(self, bool):
+       self.is_playing = bool
 
     
     def run(self):
@@ -176,13 +178,7 @@ class Game:
                         #jeux en mode lancer
                         self.is_tuto = True
 
-
-            #self.screen.fill((0,0,0))
-            #self.level.run()
-            #pygame.display.update()
             self.clock.tick(FPS)
-
-
 
 
 

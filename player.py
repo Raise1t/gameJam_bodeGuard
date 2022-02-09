@@ -2,8 +2,10 @@ from curses import KEY_DOWN
 #from typing_extensions import Self
 import pygame
 from entity import Entity
+from game import Game
 from settings import *
 from debug import debug
+
 
 class Player(Entity):
     def __init__(self,pos,groups,obstacle_sprites):
@@ -18,6 +20,8 @@ class Player(Entity):
         self.stats = {'health': 100, 'attack': 10, 'speed': 8}
         self.health = self.stats['health']
         self.speed = self.stats['speed']
+        #le joueur est en vie
+        self.alive = True
 
     def input(self):
         key = pygame.key.get_pressed()
@@ -40,3 +44,19 @@ class Player(Entity):
             self.image = pygame.image.load('texture/player_night.png').convert_alpha()
         self.input()
         self.move(self.speed)
+
+
+    #le joueur est mort
+    def death(self, health):
+        if self.health <= 0:
+            self.alive = False
+            #Game.set_is_playing(False)
+            
+
+    #le joueur perd de la vie
+    def lost_life(self, pv_lost):
+        if self.alive:
+            self.health = self.health - pv_lost
+            self.death(self.health)
+            print('pv =')
+            print(self.health)
