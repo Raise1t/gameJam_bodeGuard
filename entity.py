@@ -3,25 +3,11 @@ from curses import KEY_DOWN
 import pygame
 from settings import *
 
-class Mob(pygame.sprite.Sprite):
-    def __init__(self,pos,groups,obstacle_sprites):
+class Entity(pygame.sprite.Sprite):
+    def __init__(self,groups):
         super().__init__(groups)
-        self.image = pygame.image.load('texture/player2.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft = pos)
         self.direction = pygame.math.Vector2()
-
-        self.obstacle_sprites = obstacle_sprites
-        self.hitbox = self.rect.inflate(-10,0)
-
-        #stats
-        self.stats = {'health': 100, 'attack': 5, 'speed': 5}
-        self.health = self.stats['health']
-        self.speed = self.stats['speed']
-
-    def input(self):     
-            self.direction.x = -1
-
-
+    
     def move(self, speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()*0.80
@@ -60,7 +46,3 @@ class Mob(pygame.sprite.Sprite):
                     if self.direction.y < 0:
                         #self.rect.top = sprite.rect.bottom
                         self.hitbox.top = sprite.hitbox.bottom
-
-    def update(self):
-        self.input()
-        self.move(self.speed)

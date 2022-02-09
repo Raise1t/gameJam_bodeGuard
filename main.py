@@ -4,6 +4,7 @@ from debug import debug
 from level import Level
 import time
 
+
 class Game:
     def __init__(self):
         
@@ -29,7 +30,7 @@ class Game:
 
         #code avec les initialisation du jeux et début
 
-        self.level.run(self.timer)
+        self.level.run()
 
 
     #affichage de la page des commandes
@@ -180,6 +181,7 @@ class Game:
             #self.level.run()
             #pygame.display.update()
             self.clock.tick(FPS)
+
 
 
 

@@ -6,4 +6,10 @@ class Grass_block(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = pygame.image.load('texture/grass.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
+
+class Grass_block_night(pygame.sprite.Sprite):
+    def __init__(self,pos,groups):
+        super().__init__(groups)
+        self.image = pygame.image.load('texture/grass_night.png').convert_alpha()
+        self.rect = self.image.get_rect(topleft = pos)
         

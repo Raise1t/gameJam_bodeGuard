@@ -1,6 +1,7 @@
 from distutils.log import debug
 from re import X
 import pygame
+from mob1 import Mob1
 from settings import *
 from water_block import Water_block
 from grass_block import Grass_block
@@ -9,11 +10,9 @@ from player import Player
 from tente import Tente
 from debug import debug
 from ui import UI
-<<<<<<< HEAD
 import time
-=======
-from mob import Mob
->>>>>>> main
+from entity import Entity
+
 
 class Level:
     def __init__(self):
@@ -59,8 +58,7 @@ class Level:
                     
                 if col == ' ':
                     Grass_block((x,y),[self.visible_sprites])
-
-        Mob((X_m,Y_m),[self.visible_sprites],self.obstacles_sprites)
+        Mob1((X_m,Y_m),[self.visible_sprites], self.obstacles_sprites)
         Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
         self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
@@ -69,6 +67,7 @@ class Level:
         #self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        self.visible_sprites.enemy_update(self.player)
         self.ui.display(self.player)
 
 class YSortCameraGroup(pygame.sprite.Group):
@@ -88,3 +87,8 @@ class YSortCameraGroup(pygame.sprite.Group):
         #for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
+
+    def enemy_update(self,player):
+        enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,'sprite_type') if sprite.sprite_type == 'enemy']
+        for enemy in enemy_sprites:
+            enemy.enemy_update(player)

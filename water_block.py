@@ -7,3 +7,5 @@ class Water_block(pygame.sprite.Sprite):
         self.image = pygame.image.load('texture/water.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect
+
+        
