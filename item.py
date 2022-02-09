@@ -1,6 +1,8 @@
 import pygame
 
 class Item(pygame.sprite.Sprite):
+
+    items = {}
     
     def __init__(self, pos, group, name, consumable, fuel) -> None:
         super().__init__(group)
@@ -9,6 +11,10 @@ class Item(pygame.sprite.Sprite):
         self._name = name
         self._consumable = consumable
         self._fuel = fuel
+        Item.items[self._name] = self
+    
+    def getImage(self):
+        return self.image
     
     def getName(self):
         return self._name

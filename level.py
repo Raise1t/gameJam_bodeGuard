@@ -49,7 +49,7 @@ class Level:
                 if col == ' ':
                     Grass_block((x,y),[self.visible_sprites])
         Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
-        SpeedPotion((2100, 1450), [self.visible_sprites, self.items_sprites])
+        SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
         self.player = Player(self, (X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
 
     def run(self):
@@ -59,13 +59,14 @@ class Level:
         self.visible_sprites.update()
         self.ui.display(self.player)
 
+
     def interactEvent(self):
         for item in pygame.sprite.spritecollide(self.player, self.items_sprites, 1):
             self.player.addToInventory(item)
-            self.removeItem(item)
+            item.remove(self.visible_sprites)
     
-    def removeItem(self, item):
-        item.remove(self.visible_sprites)
+    def throwEvent(self):
+        
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):

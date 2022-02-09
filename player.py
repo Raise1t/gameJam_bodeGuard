@@ -1,5 +1,6 @@
 from ast import If
 from curses import KEY_DOWN
+from xxlimited import new
 #from typing_extensions import Self
 import pygame
 from settings import *
@@ -16,6 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.obstacle_sprites = obstacle_sprites
         self._health = 100
         self._inventory = {}
+        self._selectedSlot = 0
         self.hitbox = self.rect.inflate(-10,0)
         
         #stats
@@ -43,6 +45,18 @@ class Player(pygame.sprite.Sprite):
     @speed.setter
     def speed(self, newSpeed):
         self._speed = newSpeed
+    
+    @property
+    def selectedSlot(self):
+        return self._selectedSlot
+    
+    @selectedSlot.setter
+    def selectedSlot(self, newSlot):
+        if newSlot >= 0 and newSlot < 4:
+            self._selectedSlot = newSlot
+    
+    def getInventory(self):
+        return self._inventory
 
     ###########################################################################
 
@@ -52,12 +66,12 @@ class Player(pygame.sprite.Sprite):
             print("You now have ", self._inventory[item.getName()], item.getName())
         except KeyError:
             self._inventory[item.getName()] = 1
-            print("Created a spot for", item.getName())
+            print("Created a slot for", item.getName())
             print("You now have", self._inventory[item.getName()], item.getName())
     
     def removeFromInventory(self, item):
         self._inventory[item] -= 1
-    
+
 
     def input(self):
         key = pygame.key.get_pressed()
@@ -77,7 +91,13 @@ class Player(pygame.sprite.Sprite):
         
         if key[pygame.K_j]:
             self.__level.interactEvent()
-
+        if key[pygame.K_r]:
+            self.__level.throwEvent()
+        
+        if key[pygame.K_i]:
+            self.selectedSlot = self.selectedSlot - 1
+        if key[pygame.K_o]:
+            self.selectedSlot = self.selectedSlot + 1
         
     
     def move(self, speed):
