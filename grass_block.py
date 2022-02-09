@@ -8,7 +8,7 @@ class Grass_block(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = pos)
 
     def __del__(self):
-        print('deleted')
+         pass
 
 class Grass_block_night(pygame.sprite.Sprite):
     def __init__(self,pos,groups):

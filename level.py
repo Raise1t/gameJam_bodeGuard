@@ -1,5 +1,6 @@
 from distutils.log import debug
 from re import X
+from telnetlib import SE
 import pygame
 from mob1 import Mob1
 from settings import *
@@ -46,7 +47,8 @@ class Level:
                 x = col_index * BLOCKSIZE
                 y = row_index * BLOCKSIZE
                 if col == 'o':
-                    Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
+                     Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
+                    
                 if col == 'w':
                     Wet_block((x,y),[self.visible_sprites])
                 if col == 'p':
@@ -63,7 +65,8 @@ class Level:
                     Y_t = y
                     
                 if col == ' ':
-                    Grass_block((x,y),[self.visible_sprites])
+                   Grass_block((x,y),[self.visible_sprites])
+                    
         i =0
         for mob in X_m:
             self.entity_list.append(Mob1((X_m[i],Y_m[i]),[self.visible_sprites], self.obstacles_sprites))
@@ -99,21 +102,36 @@ class Level:
                     Y_t = y
                 if col == ' ':
                     Grass_block_night((x,y),[self.visible_sprites])
+                    
         Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
         for entity in self.entity_list:
             self.visible_sprites.add(entity)
 
+    def reset(self, player, entity_list, obstacles_list):
+        player.reset()
+        entity_list.clear()
+        self.day_pass = False
+        
 
     def run(self):
         #draw things
         #self.visible_sprites.draw(self.display_surface)
-        if pygame.time.get_ticks() >= DAY_DURATION and not self.day_pass:
-            self.day_pass = True
-            self.create_map_night()
-        self.visible_sprites.custom_draw(self.player)
-        self.visible_sprites.update()
-        self.visible_sprites.enemy_update(self.player)
-        self.ui.display(self.player)
+
+        #my_timer = Stopwatch()
+        #print my_timer.get_seconds()
+
+        if not self.player.death():
+            if pygame.time.get_ticks() >= DAY_DURATION and not self.day_pass:
+                self.day_pass = True
+                self.create_map_night()
+            self.visible_sprites.custom_draw(self.player)
+            self.visible_sprites.update()
+            self.visible_sprites.enemy_update(self.player)
+            self.ui.display(self.player)
+            return True
+        else:
+            self.reset(self.player, self.entity_list, self.obstacles_sprites)
+            return False
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):

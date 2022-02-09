@@ -30,7 +30,8 @@ class Game:
 
         #code avec les initialisation du jeux et début
 
-        self.level.run()
+        test = self.level.run()
+        return test
 
 
     #affichage de la page des commandes
@@ -60,6 +61,7 @@ class Game:
     #affichage de la page des credits
     def affiche_credits(self, screen):
         #bouton retour
+        
 
         image = pygame.image.load('texture/noir.jpg')
         screen.blit(image, (0,0))
@@ -101,7 +103,7 @@ class Game:
             #vérifier si le jeux à commencer
             if game.is_playing:
                 #déclancher les instructions de la partie
-                self.lancer_jeu(self.screen)
+                game.is_playing = self.lancer_jeu(self.screen)
             #vérifier que l'on clique sur le bouton commande
             elif game.is_command:
                 #déclanche la page des commandes

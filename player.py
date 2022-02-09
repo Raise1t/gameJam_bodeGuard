@@ -20,8 +20,7 @@ class Player(Entity):
         self.stats = {'health': 100, 'attack': 10, 'speed': 8}
         self.health = self.stats['health']
         self.speed = self.stats['speed']
-        #le joueur est en vie
-        self.alive = True
+
 
     def input(self):
         key = pygame.key.get_pressed()
@@ -47,16 +46,24 @@ class Player(Entity):
 
 
     #le joueur est mort
-    def death(self, health):
+    def death(self):
         if self.health <= 0:
-            self.alive = False
+            
+            return True
+        else:
+            return False
             #Game.set_is_playing(False)
             
 
     #le joueur perd de la vie
     def lost_life(self, pv_lost):
-        if self.alive:
-            self.health = self.health - pv_lost
-            self.death(self.health)
-            print('pv =')
-            print(self.health)
+        self.health = self.health - pv_lost
+  
+        print('pv =')
+        print(self.health)
+
+    def reset(self):
+        self.health = self.stats["health"]
+        print('rrr')
+        
+
