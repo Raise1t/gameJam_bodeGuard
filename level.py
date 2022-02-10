@@ -33,7 +33,7 @@ class Level:
 
         #setup the sprite
         self.create_map(num)
-
+        
         #user interface
         self.ui = UI()
 
@@ -48,13 +48,19 @@ class Level:
 
     def create_map(self, num_map):
 
-        if num_map ==1:
+        if num_map == 1:
             map= MAP_1
-        else:
+        elif num_map == 2:
             map = MAP_2
+        else:
+            map = MAP_0
 
         X_m =[]
         Y_m = []
+        X_t = 0
+        X_p = 0
+        Y_p = 0
+        Y_t = 0
         self.every_day_texture = []
         self.every_night_texture = []
         for row_index,row in enumerate(map):
@@ -87,11 +93,11 @@ class Level:
                     self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
                     self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
 
-        i =0
+        i = 0
         for mob in X_m:
             self.entity_list.append(Mob1((X_m[i],Y_m[i]),[self.visible_sprites], self.obstacles_sprites))
             i+=1
-
+        
         self.every_day_texture.append(Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         potion = SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
@@ -101,6 +107,7 @@ class Level:
         self.entity_list.append(self.player)
         for texture in self.every_night_texture:
             self.visible_sprites.remove(texture)
+        
 
 
 
@@ -157,7 +164,8 @@ class Level:
     def run(self, num_map):
         #draw things
         #self.visible_sprites.draw(self.display_surface)
-        
+        if self.map == 0:
+            return False
         if not self.player.death():
             
             self.is_day_or_night()
