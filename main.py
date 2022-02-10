@@ -90,14 +90,6 @@ class Game:
             elif event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                
-
-                
-
-
-
-
-
 
     #maj des composants dés qu'ils sont lancés
     def lancer_jeu(self, screen):
