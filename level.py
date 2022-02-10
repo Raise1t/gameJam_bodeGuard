@@ -4,17 +4,15 @@ from telnetlib import SE
 import pygame
 from mob1 import Mob1
 from settings import *
-from speed_potion import SpeedPotion, SpeedPotion_night
+from speed_potion import SpeedPotion
+from crack_potion import CrackPotion
 from water_block import Water_block
 from water_block import Water_block_night
 from grass_block import Grass_block, Grass_block_night
 from wet_block import Wet_block, Wet_block_night
 from player import Player
 from tente import Tente, Tente_night
-from debug import debug
 from ui import UI
-import time
-from entity import Entity
 
 
 class Level:
@@ -106,6 +104,9 @@ class Level:
         potion = SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
         self.every_day_texture.append(potion)
         self.every_night_texture.append(potion)
+        potion = CrackPotion((3100, 2500), [self.visible_sprites, self.items_sprites])
+        self.every_night_texture.append(potion)
+
         self.player = Player(self, (X_p,Y_p), [self.visible_sprites], self.obstacles_sprites)
         self.entity_list.append(self.player)
         for texture in self.every_night_texture:
@@ -176,6 +177,7 @@ class Level:
             self.visible_sprites.update()
             self.visible_sprites.enemy_update(self.player)
             self.ui.display(self.player)
+            self.player.updateEffect()
             debug(self.timer)
             return True
         else:
@@ -196,6 +198,17 @@ class Level:
             self.visible_sprites.remove(self.player)
             SpeedPotion(coords, [self.visible_sprites, self.items_sprites])
             self.visible_sprites.add(self.player)
+        elif item == "Potion of crack":
+            self.visible_sprites.remove(self.player)
+            CrackPotion(coords, [self.visible_sprites, self.items_sprites])
+            self.visible_sprites.add(self.player)
+    
+    def updatePlayerEffect(self):
+        effects = []
+        for key, value in self.player.effects.items():
+            if value:
+                effects.append(key)
+        self.ui.showEffectDuration(effects)
 
 
 class YSortCameraGroup(pygame.sprite.Group):

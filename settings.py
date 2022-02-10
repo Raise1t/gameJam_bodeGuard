@@ -13,14 +13,15 @@ ITEM_BOX_SIZE = 80
 #color
 UI_BG_COLOR = 100,100,100
 UI_BORDER_COLOR = 0,0,0
+UI_EFFECT_TEXT_COLOR = 255, 255, 255
 
-#day n night
 DAY_DURATION = 3 # en sec
 NIGHT_DURATION = 5 # en sec
 
 # Maps
 
 MAP_0 = [[]]
+
 
 MAP_1 = [
 ['o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o'],
