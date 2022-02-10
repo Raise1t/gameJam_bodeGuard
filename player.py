@@ -406,14 +406,7 @@ class Player(Entity):
         print('reset')
         
     def hitted(self):
-        if self.night_pass:
-            self.health = self.health - ( self.stats['health'] * 1/6 )
-        else:
-            self.health = self.health - ( self.stats['health'] * 1/3 )
-
-
-
-            self.get_status()
+        pass
 
             # ANIMATIONS CONTROLER-----------------------------        
 
