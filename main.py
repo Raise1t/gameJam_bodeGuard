@@ -71,6 +71,9 @@ class Game:
                     self.is_niveau = False
                     self.num_map = 2
                     self.is_playing = True
+            elif event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
                 
 
@@ -123,7 +126,9 @@ class Game:
                 if retour_rect.collidepoint(event.pos):
                     #retourne au menu principale
                     self.is_command = False
-
+            elif event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
     #affichage de la page des credits
     def affiche_credits(self, screen):
@@ -146,6 +151,9 @@ class Game:
                 if retour_rect.collidepoint(event.pos):
                     #retourne au menu principale
                     self.is_credits = False
+            elif event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
 
     #affichage de la page du tuto
