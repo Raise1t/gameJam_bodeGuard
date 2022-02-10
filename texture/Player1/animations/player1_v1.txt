@@ -11,45 +11,42 @@ class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites):
         super().__init__(groups)
         #self.image = pygame.image.load('texture/player.png').convert_alpha()
-        self.path = 'texture/Player1/animations/'
-        self.sprites = {'left': [],'right': [], 'right_idle':[],'left_idle':[]}
 
-
-        
-        self.sprites['right_idle'].append(pygame.image.load(self.path + 'right_idle/idle_1.png').convert_alpha())
-        self.sprites['right_idle'].append(pygame.image.load(self.path + 'right_idle/idle_2.png').convert_alpha())
-        self.sprites['right_idle'].append(pygame.image.load(self.path + 'right_idle/idle_3.png').convert_alpha())
-        self.sprites['right_idle'].append(pygame.image.load(self.path + 'right_idle/idle_4.png').convert_alpha())
+        self.sprites = []
+        self.sprites_idle_right.append(pygame.image.load('texture/Player1/animations/right_idle/idle_1.png').convert_alpha())
+        self.sprites_idle_right.append(pygame.image.load('texture/Player1/animations/right_idle/idle_2.png').convert_alpha())
+        self.sprites_idle_right.append(pygame.image.load('texture/Player1/animations/right_idle/idle_3.png').convert_alpha())
+        self.sprites_idle_right.append(pygame.image.load('texture/Player1/animations/right_idle/idle_4.png').convert_alpha())
 
         #self.sprites_idle_left
-        self.sprites['left_idle'].append(pygame.image.load(self.path + 'left_idle/idle_1.png').convert_alpha())
-        self.sprites['left_idle'].append(pygame.image.load(self.path + 'left_idle/idle_2.png').convert_alpha())
-        self.sprites['left_idle'].append(pygame.image.load(self.path + 'left_idle/idle_3.png').convert_alpha())
-        self.sprites['left_idle'].append(pygame.image.load(self.path + 'left_idle/idle_4.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left_idle/idle_1.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left_idle/idle_2.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left_idle/idle_3.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left_idle/idle_4.png').convert_alpha())
 
         #self.sprites_w_right = []
-        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_1.png').convert_alpha())
-        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_2.png').convert_alpha())
-        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_3.png').convert_alpha())
-        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_4.png').convert_alpha())
-        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_5.png').convert_alpha())
-        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_6.png').convert_alpha())            
+        self.sprites.append(pygame.image.load('texture/Player1/animations/right/right_1.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/right/right_2.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/right/right_3.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/right/right_4.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/right/right_5.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/right/right_6.png').convert_alpha())            
             
         #self.sprites_w_left = []
-        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_1.png').convert_alpha())
-        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_2.png').convert_alpha())
-        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_3.png').convert_alpha())
-        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_4.png').convert_alpha())
-        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_5.png').convert_alpha())
-        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_6.png').convert_alpha())                      
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left/left_1.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left/left_2.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left/left_3.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left/left_4.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left/left_5.png').convert_alpha())
+        self.sprites.append(pygame.image.load('texture/Player1/animations/left/left_6.png').convert_alpha())                      
 
         #self.sprites_idle_left    
 
         self.index = 0 #general index for sprites
+        self.image = self.sprites_idle_right[self.index]
+        self.speed_sprite = 0.25
 
-        self.speed_sprite = 0.35
-
-        self.image = self.sprites['right_idle'] [0]
+        #self.image = self.sprites[int(self.current_sprite)]
 
         self.rect = self.image.get_rect(topleft=pos)
 
@@ -71,9 +68,6 @@ class Player(Entity):
         self.walk_right_animation = False
         self.walk_left_animation = False
 
-        self.direction = pygame.math.Vector2()
-        self.status = 'right_idle'
-
         self.right_direction = True
         self.left_direction = False
 
@@ -89,14 +83,10 @@ class Player(Entity):
                 self.walk_right_animation = False
                 self.walk_left_animation = False
 
-    def get_status(self): 
-        #idle
-        if self.direction.x == 0 and self.direction.y == 0:
-            if self.right_direction:
-                self.status = 'right_idle'
-            if self.left_direction:
-                self.status = 'left_idle'
+    def control_animate_direction(self): 
 
+        if self.direction.x == 0 and self.direction.y == 0:
+            self.wich_direction_stop()
 
         elif self.direction.x == -1: #gauche
             self.idle_left_animation = False
@@ -105,7 +95,6 @@ class Player(Entity):
             self.right_direction = False
             self.walk_right_animation = False
             self.walk_left_animation = True
-            self.status = 'left'
 
 
         elif self.direction.x == 1 :#droite
@@ -115,7 +104,6 @@ class Player(Entity):
             self.right_direction = True
             self.walk_right_animation = True
             self.walk_left_animation = False
-            self.status = 'right'
 
         elif self.direction.x == -1 and self.direction.y == -1 :# diagonale gauche haut
             self.idle_left_animation = False
@@ -123,8 +111,7 @@ class Player(Entity):
             self.left_direction = True
             self.right_direction = False
             self.walk_right_animation = False
-            self.walk_left_animation = True
-            self.status = 'left'   
+            self.walk_left_animation = True   
 
         elif self.direction.x == -1 and self.direction.y == 1 :#diagonale gauche bas
             self.idle_left_animation = False
@@ -133,7 +120,6 @@ class Player(Entity):
             self.right_direction = False
             self.walk_right_animation = False
             self.walk_left_animation = True
-            self.status = 'left'
 
         elif self.direction.x == 1 and self.direction.y == -1 :#diagonale droite haut            self.idle_left_animation = False
             self.idle_left_animation = False
@@ -142,7 +128,6 @@ class Player(Entity):
             self.right_direction = True
             self.walk_right_animation = True
             self.walk_left_animation = False
-            self.status = 'right'
 
         elif self.direction.x == 1 and self.direction.y == -1:#diagonale droite bas            self.idle_left_animation = False
             self.idle_left_animation = False
@@ -150,8 +135,7 @@ class Player(Entity):
             self.left_direction = False
             self.right_direction = True
             self.walk_right_animation = True
-            self.walk_left_animation = False
-            self.status = 'right'  
+            self.walk_left_animation = False  
 
         elif self.direction.x == 0 and self.direction.y == -1: # haut
             if self.right_direction:
@@ -161,7 +145,6 @@ class Player(Entity):
                 self.right_direction = True
                 self.walk_right_animation = True
                 self.walk_left_animation = False
-                self.status = 'right'
 
             if self.left_direction:
                 self.idle_left_animation = False
@@ -170,7 +153,6 @@ class Player(Entity):
                 self.right_direction = False
                 self.walk_right_animation = False
                 self.walk_left_animation = True
-                self.status = 'left'
 
         elif self.direction.x == 0 and self.direction.y == 1: # bas
             if self.right_direction:
@@ -194,39 +176,60 @@ class Player(Entity):
         key = pygame.key.get_pressed()
         if key[pygame.K_z] or key[pygame.K_UP]:
             self.direction.y = -1
-            self.get_status()
 
         elif key[pygame.K_s] or key[pygame.K_DOWN]:
             self.direction.y = 1
-            self.get_status()
             
         else:
             self.direction.y = 0
-            self.get_status()
 
         if key[pygame.K_d] or key[pygame.K_RIGHT]:
             self.direction.x = 1
-            self.get_status()
         elif key[pygame.K_q] or key[pygame.K_LEFT]:
             self.direction.x = -1
-            self.get_status()
+            #self.left_w_direction() 
         else:
             self.direction.x = 0
-            self.get_status()
 
-            # ANIMATIONS CONTROLER-----------------------------        
+            # ANIMATIONS CONTROLER-----------------------------
+
+    
+    def idle_animate(self):
+        if self.idle_right_animation == True and self.right_direction == True:
+            self.index += self.speed_sprite  # speed standard
+            if self.index >= len(self.sprites_idle_right):
+               self.index = 0
+        self.image = self.sprites_idle_right[int(self.index)]
+
+        if self.idle_left_animation == True and self.left_direction == True:
+            self.index += self.speed_sprite  # speed standard
+            if int(self.index) >= len(self.sprites_idle_left):
+                self.index = 0
+        self.image = self.sprites_idle_left[int(self.index)]
+
+    def right_animate(self):
+        if self.walk_right_animation and self.right_direction:
+            self.index += self.speed_sprite
+            if self.index >= len(self.sprites_w_right):
+               self.index = 0
+        self.image = self.sprites_w_right[int(self.index)]
+
+    def left_animate(self):
+        if self.walk_left_animation and self.left_direction:
+            self.index += self.speed_sprite
+            if self.index >= len(self.sprites_w_left):
+               self.index = 0 
+               print('left condition')
+                #self.walk_left_animation = False
+        self.image = self.sprites_w_left[int(self.index)]
+        print('left animation')        
 
     def animate(self):
-        
-        animation = self.sprites[self.status]
-        #loop over the frame index
-        self.index += self.speed_sprite
-        if self.index >= 4:
-            print('dans if')
-            self.index = 0
-        #set the image
-        self.image = animation[int(self.index)] 
-        print('uwu')   
+        print('uwu')
+        self.control_animate_direction()
+        self.idle_animate()
+        self.right_animate()
+        self.left_animate()
         
 
     def update(self):
@@ -234,5 +237,4 @@ class Player(Entity):
         self.animate()
         self.move(self.speed)
         #if pygame.time.get_ticks() >= DAY_DURATION:
-         #   self.animate()    
-        
+         #   self.animate()  
