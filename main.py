@@ -1,8 +1,10 @@
-import pygame, sys
+import sys
 from settings import *
 from debug import debug
 from level import Level
 import time
+import pygame
+
 
 
 class Game:
@@ -117,7 +119,7 @@ class Game:
         self.is_command = True
 
         #introduction de l'image des commandes
-        image = pygame.image.load('texture/lesCommandes.jpg')
+        image = pygame.image.load('texture/lesCommandes.png')
         screen.blit(image, (0,0))
 
         #bouton retour
@@ -125,9 +127,9 @@ class Game:
         retour = pygame.transform.scale(retour, (386,70))
         retour_rect = retour.get_rect()
         retour_rect.x = 319
-        retour_rect.y = 600
+        retour_rect.y = 700
 
-        screen.blit(retour, (319,600))
+        screen.blit(retour, (319,700))
 
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
