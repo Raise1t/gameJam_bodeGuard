@@ -55,7 +55,10 @@ class Level:
         else:
             map = MAP_0
 
-
+        X_ps =[]
+        Y_ps = []
+        X_pc =[]
+        Y_pc = []
         X_m =[]
         Y_m = []
         X_t = 0
@@ -89,7 +92,16 @@ class Level:
                     self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
                     X_t = x
                     Y_t = y
-                    
+                if col == 's':
+                    X_ps.append(x)
+                    Y_ps.append(y)
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+                if col == 'c':
+                    X_pc.append(x)
+                    Y_pc.append(y)
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
                 if col == ' ':
                     self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
                     self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
@@ -98,13 +110,21 @@ class Level:
         for mob in X_m:
             self.entity_list.append(Mob1((X_m[i],Y_m[i]),[self.visible_sprites], self.obstacles_sprites))
             i+=1
+
+        i = 0
+        for ps in X_ps:
+            potion = SpeedPotion((X_ps[i],Y_ps[i]), [self.visible_sprites, self.items_sprites])
+            self.every_night_texture.append(potion)
+            i += 1
+
+        i = 0
+        for pc in X_pc:
+            potion = CrackPotion((X_pc[i],Y_pc[i]), [self.visible_sprites, self.items_sprites])
+            self.every_night_texture.append(potion)
+            i += 1
         
         self.every_day_texture.append(Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
-        potion = SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
-        self.every_night_texture.append(potion)
-        potion = CrackPotion((3100, 2500), [self.visible_sprites, self.items_sprites])
-        self.every_night_texture.append(potion)
 
         self.player = Player(self,(X_p,Y_p), [self.visible_sprites], self.obstacles_sprites)
         self.entity_list.append(self.player)
