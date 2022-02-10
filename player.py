@@ -28,7 +28,7 @@ class Player(Entity):
         self.night_pass = True
         
         #stats
-        self.stats = {'health': 100, 'attack': 10, 'speed': 6.5}
+        self.stats = {'health': 100, 'attack': 10, 'speed': 8.5}
         self.health = self.stats['health']
         self.speed = self.stats['speed']
         self._effects = {'Speed' : 0, 'Strength' : 0, 'Crack' : 0}
@@ -199,7 +199,7 @@ class Player(Entity):
     def is_day_or_night(self):
         self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
         if self.timer >= DAY_DURATION and not self.day_pass:
-
+            
             self.image = pygame.image.load('texture/player_night.png').convert_alpha()
             self.day_pass = True
             self.night_pass =False
@@ -207,6 +207,7 @@ class Player(Entity):
             self.timer = 0
 
         if self.timer >= NIGHT_DURATION and not self.night_pass:
+            
             self.game_start_at = pygame.time.get_ticks()
             self.image = pygame.image.load('texture/player.png').convert_alpha()
             self.day_pass = False
@@ -221,7 +222,7 @@ class Player(Entity):
 
     def hitted(self):
         if self.night_pass:
-            self.health = self.health - ( self.stats['health'] * 1/10 )
-        else:
             self.health = self.health - ( self.stats['health'] * 1/6 )
+        else:
+            self.health = self.health - ( self.stats['health'] * 1/3 )
 

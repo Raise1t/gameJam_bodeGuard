@@ -15,7 +15,7 @@ UI_BG_COLOR = 100,100,100
 UI_BORDER_COLOR = 0,0,0
 
 #day n night
-DAY_DURATION = 20 # en sec
+DAY_DURATION = 10 # en sec
 NIGHT_DURATION = 25 # en sec
 
 # number of tile 26 x 25
