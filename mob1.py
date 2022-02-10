@@ -11,12 +11,16 @@ class Mob1(Entity):
         super().__init__(groups)
         self.sprite_type = 'enemy'
 
-        self.attack_radius = 50
-        self.notice_radius = 300
+        self.attack_radius = 30
+        self.notice_radius = 1500
 
-        self.image = pygame.image.load('texture/mob1.png').convert_alpha()
-        self.stats = {'health': 100, 'attack': 50, 'speed': 3}
-        self.attack = self.stats['attack']
+        #self.image = pygame.image.load('texture/mob1.png').convert_alpha()
+        #self.stats = {'health': 100, 'attack': 50, 'speed': 3}
+        #self.attack = self.stats['attack']
+
+        self.image = pygame.image.load('texture/mob1_night.png').convert_alpha()
+        self.stats = {'health': 100, 'attack': 10, 'speed': 5.5}
+
         self.health = self.stats['health']
         self.speed = self.stats['speed']
 
@@ -62,6 +66,7 @@ class Mob1(Entity):
     def actions(self,player):
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
+            player.hitted()
             self.can_attack =False
             self.attack_cooldown()
             self.attack_player(player)
@@ -81,11 +86,11 @@ class Mob1(Entity):
         if not self.can_attack:
             current_time = pygame.time.get_ticks()
             self.temp += current_time - self.u
-            print(self.temp)
+            #print(self.temp)
             if self.temp >= self.attack_cooldown_v:
                 self.temp = 0
                 self.u = current_time
-                print(self.temp)
+                #print(self.temp)
                 self.can_attack = True
         else:
             print('attack')

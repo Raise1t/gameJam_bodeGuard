@@ -13,10 +13,15 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
         pygame.display.set_caption('BODE GUARD')
         self.clock = pygame.time.Clock()
+        self.lancer_partie = False
 
         #backgroud du menu principale
         self.bg = pygame.image.load('texture/bg_menu.jpg')
+
         #self.level = Level(num_map)
+
+
+
 
         # les différents modes
         self.is_playing = False
@@ -84,6 +89,10 @@ class Game:
         test = self.level.run(self.num_map)
         return test
 
+       
+        #self.level.run()
+
+
 
     #affichage de la page des commandes
     def affiche_command(self, screen):
@@ -145,6 +154,7 @@ class Game:
     def run(self):
         self.clock_sec = time.gmtime().tm_sec
         self.temp = self.clock_sec
+ 
         while True:
 
 
@@ -155,6 +165,7 @@ class Game:
             if game.is_playing:
                 #déclancher les instructions de la partie
                 game.is_playing = self.lancer_jeu(self.screen)
+
             #vérifier que l'on clique sur le bouton commande
             elif game.is_command:
                 #déclanche la page des commandes

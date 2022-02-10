@@ -4,6 +4,7 @@ from telnetlib import SE
 import pygame
 from mob1 import Mob1
 from settings import *
+from speed_potion import SpeedPotion, SpeedPotion_night
 from water_block import Water_block
 from water_block import Water_block_night
 from grass_block import Grass_block, Grass_block_night
@@ -22,6 +23,7 @@ class Level:
         #self.visible_sprites = pygame.sprite.Group()
         self.visible_sprites = YSortCameraGroup()
         self.obstacles_sprites = pygame.sprite.Group()
+        self.items_sprites = pygame.sprite.Group()
 
         self.entity_list = []
 
@@ -37,131 +39,79 @@ class Level:
         # day n night
         self.day_duration = DAY_DURATION
         self.night_duration = NIGHT_DURATION
+        self.game_start_at = pygame.time.get_ticks()
         self.day_pass = False
+        self.night_pass = True
+        
 
     def create_map(self, num_map):
+
+        if num_map ==1:
+            map= MAP_1
+        else:
+            map = MAP_2
+
         X_m =[]
         Y_m = []
-
-        if num_map == 1:
-            for row_index,row in enumerate(MAP_1):
-                for col_index, col in enumerate(row):
-                    x = col_index * BLOCKSIZE
-                    y = row_index * BLOCKSIZE
-                    if col == 'o':
-                        Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
-                        
-                    if col == 'w':
-                        Wet_block((x,y),[self.visible_sprites])
-                    if col == 'p':
-                        X_p = x
-                        Y_p = y
-                        Grass_block((x,y),[self.visible_sprites])
-                    if col == 'm':
-                        X_m.append(x)
-                        Y_m.append(y)
-                        Grass_block((x,y),[self.visible_sprites])
-                    if col == 't':
-                        Grass_block((x,y),[self.visible_sprites])
-                        X_t = x
-                        Y_t = y
-                        
-                    if col == ' ':
-                        Grass_block((x,y),[self.visible_sprites])
-
-        if num_map == 2:
-            for row_index,row in enumerate(MAP_2):
-                for col_index, col in enumerate(row):
-                    x = col_index * BLOCKSIZE
-                    y = row_index * BLOCKSIZE
-                    if col == 'o':
-                        Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
-                        
-                    if col == 'w':
-                        Wet_block((x,y),[self.visible_sprites])
-                    if col == 'p':
-                        X_p = x
-                        Y_p = y
-                        Grass_block((x,y),[self.visible_sprites])
-                    if col == 'm':
-                        X_m.append(x)
-                        Y_m.append(y)
-                        Grass_block((x,y),[self.visible_sprites])
-                    if col == 't':
-                        Grass_block((x,y),[self.visible_sprites])
-                        X_t = x
-                        Y_t = y
-                        
-                    if col == ' ':
-                        Grass_block((x,y),[self.visible_sprites])
-
+        self.every_day_texture = []
+        self.every_night_texture = []
+        for row_index,row in enumerate(map):
+            for col_index, col in enumerate(row):
+                x = col_index * BLOCKSIZE
+                y = row_index * BLOCKSIZE
+                if col == 'o':
+                    self.every_day_texture.append(Water_block((x,y),[self.visible_sprites, self.obstacles_sprites]))
+                    self.every_night_texture.append(Water_block_night((x,y),[self.visible_sprites, self.obstacles_sprites]))
+                if col == 'w':
+                    self.every_day_texture.append(Wet_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append( Wet_block_night((x,y),[self.visible_sprites]))
+                if col == 'p':
+                    X_p = x
+                    Y_p = y
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+                if col == 'm':
+                    X_m.append(x)
+                    Y_m.append(y)
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+                if col == 't':
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+                    X_t = x
+                    Y_t = y
                     
+                if col == ' ':
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+
         i =0
         for mob in X_m:
             self.entity_list.append(Mob1((X_m[i],Y_m[i]),[self.visible_sprites], self.obstacles_sprites))
             i+=1
 
-        Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
-        self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
+        self.every_day_texture.append(Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
+        self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
+        potion = SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
+        self.every_day_texture.append(potion)
+        self.every_night_texture.append(potion)
+        self.player = Player(self, (X_p,Y_p), [self.visible_sprites], self.obstacles_sprites)
         self.entity_list.append(self.player)
+        for texture in self.every_night_texture:
+            self.visible_sprites.remove(texture)
+
 
 
     def create_map_night(self, map):
         for entity in self.entity_list:
             self.visible_sprites.remove(entity)
         
+        for texture in self.every_day_texture:
+            self.visible_sprites.remove(texture)
 
-        if map ==1:
-            for row_index,row in enumerate(MAP_1):
-                for col_index, col in enumerate(row):
-                    x = col_index * BLOCKSIZE
-                    y = row_index * BLOCKSIZE
-                    if col == 'o':
-                        Water_block_night((x,y),[self.visible_sprites, self.obstacles_sprites])
-                    if col == 'w':
-                        Wet_block_night((x,y),[self.visible_sprites])
-                    if col == 'p':
-                        X_p = x
-                        Y_p = y
-                        Grass_block_night((x,y),[self.visible_sprites])
-                    if col == 'm':
-                        X_m = x
-                        Y_m = y
-                        Grass_block_night((x,y),[self.visible_sprites])
-                    if col == 't':
-                        Grass_block_night((x,y),[self.visible_sprites])
-                        X_t = x
-                        Y_t = y
-                    if col == ' ':
-                        Grass_block_night((x,y),[self.visible_sprites])
-                    
-        if map ==2:
-            for row_index,row in enumerate(MAP_2):
-                for col_index, col in enumerate(row):
-                    x = col_index * BLOCKSIZE
-                    y = row_index * BLOCKSIZE
-                    if col == 'o':
-                        Water_block_night((x,y),[self.visible_sprites, self.obstacles_sprites])
-                    if col == 'w':
-                        Wet_block_night((x,y),[self.visible_sprites])
-                    if col == 'p':
-                        X_p = x
-                        Y_p = y
-                        Grass_block_night((x,y),[self.visible_sprites])
-                    if col == 'm':
-                        X_m = x
-                        Y_m = y
-                        Grass_block_night((x,y),[self.visible_sprites])
-                    if col == 't':
-                        Grass_block_night((x,y),[self.visible_sprites])
-                        X_t = x
-                        Y_t = y
-                    if col == ' ':
-                        Grass_block_night((x,y),[self.visible_sprites])
+        for texture in self.every_night_texture:
+            self.visible_sprites.add(texture)
 
-
-
-        Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
         for entity in self.entity_list:
             self.visible_sprites.add(entity)
 
@@ -169,14 +119,42 @@ class Level:
         player.reset()
         entity_list.clear()
         self.day_pass = False
-        
+
+
+    def return_to_day(self):
+        for entity in self.entity_list:
+            self.visible_sprites.remove(entity)
+
+        for texture in self.every_day_texture:
+            self.visible_sprites.add(texture)
+
+        for texture in self.every_night_texture:
+            self.visible_sprites.remove(texture)
+
+        for entity in self.entity_list:
+            self.visible_sprites.add(entity)
+
+
+    def is_day_or_night(self):
+        self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
+        if self.timer >= DAY_DURATION and not self.day_pass:
+
+            self.create_map_night()
+            self.day_pass = True
+            self.night_pass =False
+            self.game_start_at = pygame.time.get_ticks()
+            self.timer = 0
+
+        if self.timer >= NIGHT_DURATION and not self.night_pass:
+            self.game_start_at = pygame.time.get_ticks()
+            self.return_to_day()
+            self.day_pass = False
+            self.night_pass = True
+
 
     def run(self, num_map):
         #draw things
         #self.visible_sprites.draw(self.display_surface)
-
-        #my_timer = Stopwatch()
-        #print my_timer.get_seconds()
 
         if not self.player.death():
             if pygame.time.get_ticks() >= DAY_DURATION and not self.day_pass:
@@ -186,10 +164,28 @@ class Level:
             self.visible_sprites.update()
             self.visible_sprites.enemy_update(self.player)
             self.ui.display(self.player)
+            self.is_day_or_night()
+            debug(self.timer)
             return True
         else:
             self.reset(self.player, self.entity_list, self.obstacles_sprites)
             return False
+
+        
+
+
+
+    def interactEvent(self):
+        for item in pygame.sprite.spritecollide(self.player, self.items_sprites, 1):
+            self.player.addToInventory(item)
+            del item
+    
+    def throwEvent(self, item, coords):
+        if item == "Potion of swiftness":
+            self.visible_sprites.remove(self.player)
+            SpeedPotion(coords, [self.visible_sprites, self.items_sprites])
+            self.visible_sprites.add(self.player)
+
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
