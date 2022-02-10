@@ -180,6 +180,8 @@ class Player(Entity):
                 self.right_direction = True
                 self.walk_right_animation = True
                 self.walk_left_animation = False
+                self.status = 'right'
+                
 
             if self.left_direction:
                 self.idle_left_animation = False
@@ -187,7 +189,8 @@ class Player(Entity):
                 self.left_direction = True
                 self.right_direction = False
                 self.walk_right_animation = False
-                self.walk_left_animation = True            
+                self.walk_left_animation = True
+                self.status = 'left'            
 
 
     def input(self):
