@@ -14,8 +14,8 @@ class Mob1(Entity):
         self.attack_radius = 40
         self.notice_radius = 500
 
-        self.notice_radius_day = 500
-        self.notice_radius_night = 800
+        self.notice_radius_day = 250
+        self.notice_radius_night = 500
 
         self.image = pygame.image.load('texture/mob1.png').convert_alpha()
         self.stats = {'health': 100, 'attack': 10, 'speed': 4.5}
