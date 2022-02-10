@@ -190,3 +190,9 @@ class Player(Entity):
             self.image = pygame.image.load('texture/player_night.png').convert_alpha()
         self.input()
         self.move(self.speed)
+
+    def hitted(self):
+        self.health = self.health - ( self.stats['health'] * 0.77 )
+        if self.health <= 0:
+            self.health = 0
+
