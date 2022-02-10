@@ -25,7 +25,7 @@ class Player(Entity):
         self.stats = {'health': 100, 'attack': 10, 'speed': 8}
         self._health = self.stats['health']
         self._speed = self.stats['speed']
-        self._effects = {'Speed' : False, 'Strength' : False, 'Crack' : False}
+        self._effects = {'Speed' : 0, 'Strength' : 0, 'Crack' : 0}
 
     #########################################################################
 
@@ -92,10 +92,15 @@ class Player(Entity):
         return name
 
     def addEffect(self, effect):
-        self._effects[effect] = True
+        self._effects[effect] = pygame.time.get_ticks()
     
     def removeEffect(self, effect):
-        self._effects[effect] = False
+        self._effects[effect] = 0
+    
+    def updateEffect(self):
+        pass
+        #for i in self.effects.values():
+
 
 
     def input(self):
