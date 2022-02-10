@@ -14,6 +14,9 @@ class Mob1(Entity):
         self.attack_radius = 40
         self.notice_radius = 500
 
+        self.notice_radius_day = 500
+        self.notice_radius_night = 800
+
         self.image = pygame.image.load('texture/mob1.png').convert_alpha()
         self.stats = {'health': 100, 'attack': 10, 'speed': 4.5}
 
@@ -40,8 +43,10 @@ class Mob1(Entity):
 
         if self.timer >= DAY_DURATION and not self.day_pass:
             self.image = pygame.image.load('texture/mob1_night.png').convert_alpha()
-            self.speed = self.speed * 1.2
-            self.notice_radius = 1500
+            self.speed = self.speed * 1.12
+            self.notice_radius_night = self.notice_radius_night * 1.12
+            self.notice_radius = self.notice_radius_night
+
             self.day_pass = True
             self.night_pass =False
             self.game_start_at = pygame.time.get_ticks()
@@ -51,7 +56,8 @@ class Mob1(Entity):
            
             self.game_start_at = pygame.time.get_ticks()
             self.image = pygame.image.load('texture/mob1.png').convert_alpha()
-            self.notice_radius = 500
+            self.notice_radius_day = self.notice_radius_day * 1.12
+            self.notice_radius = self.notice_radius_day
             self.day_pass = False
             self.night_pass = True  
     

@@ -202,7 +202,7 @@ class Player(Entity):
     def is_day_or_night(self):
         self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
         if self.timer >= DAY_DURATION and not self.day_pass:
-            
+            self.speed = self.speed*1.08
             self.image = pygame.image.load('texture/player_night.png').convert_alpha()
             self.day_pass = True
             self.night_pass =False

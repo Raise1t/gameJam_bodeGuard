@@ -31,7 +31,7 @@ class Game:
         self.is_niveau = False
 
         self.num_map = 1
-        self.is_lunch = False
+        self.is_launch = False
 
         #ecran pour choisir le niveau
     def affiche_niveau(self, screen):
@@ -103,11 +103,18 @@ class Game:
     def lancer_jeu(self, screen):
 
         #code avec les initialisation du jeux et début
-        if not self.is_lunch:
+        if not self.is_launch:
             self.level = Level(self.num_map)
-            self.is_lunch = True
-        test = self.level.run(self.num_map)
-        return test
+            self.is_launch = True
+        is_running = self.level.run(self.num_map)
+        
+        if not is_running:
+            print('ici')
+            self.is_launch = False
+            self.level = Level(0)
+            self.level.run(self.num_map)
+
+        return is_running
 
        
         #self.level.run()
@@ -136,7 +143,9 @@ class Game:
                 if retour_rect.collidepoint(event.pos):
                     #retourne au menu principale
                     self.is_command = False
-
+            elif event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
     #affichage de la page des credits
     def affiche_credits(self, screen):
@@ -159,6 +168,9 @@ class Game:
                 if retour_rect.collidepoint(event.pos):
                     #retourne au menu principale
                     self.is_credits = False
+            elif event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
 
     #affichage de la page du tuto
@@ -185,6 +197,7 @@ class Game:
             if game.is_playing:
                 #déclancher les instructions de la partie
                 game.is_playing = self.lancer_jeu(self.screen)
+                
 
             #vérifier que l'on clique sur le bouton commande
             elif game.is_command:

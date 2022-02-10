@@ -18,7 +18,10 @@ UI_BORDER_COLOR = 0,0,0
 DAY_DURATION = 3 # en sec
 NIGHT_DURATION = 5 # en sec
 
-# number of tile 26 x 25
+# Maps
+
+MAP_0 = [[]]
+
 MAP_1 = [
 ['o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o'],
 ['o',' ',' ',' ','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o','o'],
