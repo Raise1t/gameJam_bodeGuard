@@ -12,6 +12,11 @@ class Game:
         
         #general setup
         pygame.init()
+        music = 'BodeGuard_soundtrack.mp3'
+        pygame.mixer.init()
+        pygame.mixer.music.load(music)
+        pygame.mixer.music.play(-1) 
+    
         self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
         pygame.display.set_caption('BODE GUARD')
         self.clock = pygame.time.Clock()
