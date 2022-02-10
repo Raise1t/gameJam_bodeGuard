@@ -17,7 +17,7 @@ from entity import Entity
 
 
 class Level:
-    def __init__(self):
+    def __init__(self, num):
         #sprite group
         #self.visible_sprites = pygame.sprite.Group()
         self.visible_sprites = YSortCameraGroup()
@@ -29,7 +29,7 @@ class Level:
         self.display_surface = pygame.display.get_surface()
 
         #setup the sprite
-        self.create_map()
+        self.create_map(num)
 
         #user interface
         self.ui = UI()
@@ -39,33 +39,62 @@ class Level:
         self.night_duration = NIGHT_DURATION
         self.day_pass = False
 
-    def create_map(self):
+    def create_map(self, num_map):
         X_m =[]
         Y_m = []
-        for row_index,row in enumerate(MAP_1):
-            for col_index, col in enumerate(row):
-                x = col_index * BLOCKSIZE
-                y = row_index * BLOCKSIZE
-                if col == 'o':
-                     Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
-                    
-                if col == 'w':
-                    Wet_block((x,y),[self.visible_sprites])
-                if col == 'p':
-                    X_p = x
-                    Y_p = y
-                    Grass_block((x,y),[self.visible_sprites])
-                if col == 'm':
-                    X_m.append(x)
-                    Y_m.append(y)
-                    Grass_block((x,y),[self.visible_sprites])
-                if col == 't':
-                    Grass_block((x,y),[self.visible_sprites])
-                    X_t = x
-                    Y_t = y
-                    
-                if col == ' ':
-                   Grass_block((x,y),[self.visible_sprites])
+
+        if num_map == 1:
+            for row_index,row in enumerate(MAP_1):
+                for col_index, col in enumerate(row):
+                    x = col_index * BLOCKSIZE
+                    y = row_index * BLOCKSIZE
+                    if col == 'o':
+                        Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
+                        
+                    if col == 'w':
+                        Wet_block((x,y),[self.visible_sprites])
+                    if col == 'p':
+                        X_p = x
+                        Y_p = y
+                        Grass_block((x,y),[self.visible_sprites])
+                    if col == 'm':
+                        X_m.append(x)
+                        Y_m.append(y)
+                        Grass_block((x,y),[self.visible_sprites])
+                    if col == 't':
+                        Grass_block((x,y),[self.visible_sprites])
+                        X_t = x
+                        Y_t = y
+                        
+                    if col == ' ':
+                        Grass_block((x,y),[self.visible_sprites])
+
+        if num_map == 2:
+            for row_index,row in enumerate(MAP_2):
+                for col_index, col in enumerate(row):
+                    x = col_index * BLOCKSIZE
+                    y = row_index * BLOCKSIZE
+                    if col == 'o':
+                        Water_block((x,y),[self.visible_sprites, self.obstacles_sprites])
+                        
+                    if col == 'w':
+                        Wet_block((x,y),[self.visible_sprites])
+                    if col == 'p':
+                        X_p = x
+                        Y_p = y
+                        Grass_block((x,y),[self.visible_sprites])
+                    if col == 'm':
+                        X_m.append(x)
+                        Y_m.append(y)
+                        Grass_block((x,y),[self.visible_sprites])
+                    if col == 't':
+                        Grass_block((x,y),[self.visible_sprites])
+                        X_t = x
+                        Y_t = y
+                        
+                    if col == ' ':
+                        Grass_block((x,y),[self.visible_sprites])
+
                     
         i =0
         for mob in X_m:
@@ -77,32 +106,61 @@ class Level:
         self.entity_list.append(self.player)
 
 
-    def create_map_night(self):
+    def create_map_night(self, map):
         for entity in self.entity_list:
             self.visible_sprites.remove(entity)
-        for row_index,row in enumerate(MAP_1):
-            for col_index, col in enumerate(row):
-                x = col_index * BLOCKSIZE
-                y = row_index * BLOCKSIZE
-                if col == 'o':
-                    Water_block_night((x,y),[self.visible_sprites, self.obstacles_sprites])
-                if col == 'w':
-                    Wet_block_night((x,y),[self.visible_sprites])
-                if col == 'p':
-                    X_p = x
-                    Y_p = y
-                    Grass_block_night((x,y),[self.visible_sprites])
-                if col == 'm':
-                    X_m = x
-                    Y_m = y
-                    Grass_block_night((x,y),[self.visible_sprites])
-                if col == 't':
-                    Grass_block_night((x,y),[self.visible_sprites])
-                    X_t = x
-                    Y_t = y
-                if col == ' ':
-                    Grass_block_night((x,y),[self.visible_sprites])
+        
+
+        if map ==1:
+            for row_index,row in enumerate(MAP_1):
+                for col_index, col in enumerate(row):
+                    x = col_index * BLOCKSIZE
+                    y = row_index * BLOCKSIZE
+                    if col == 'o':
+                        Water_block_night((x,y),[self.visible_sprites, self.obstacles_sprites])
+                    if col == 'w':
+                        Wet_block_night((x,y),[self.visible_sprites])
+                    if col == 'p':
+                        X_p = x
+                        Y_p = y
+                        Grass_block_night((x,y),[self.visible_sprites])
+                    if col == 'm':
+                        X_m = x
+                        Y_m = y
+                        Grass_block_night((x,y),[self.visible_sprites])
+                    if col == 't':
+                        Grass_block_night((x,y),[self.visible_sprites])
+                        X_t = x
+                        Y_t = y
+                    if col == ' ':
+                        Grass_block_night((x,y),[self.visible_sprites])
                     
+        if map ==2:
+            for row_index,row in enumerate(MAP_2):
+                for col_index, col in enumerate(row):
+                    x = col_index * BLOCKSIZE
+                    y = row_index * BLOCKSIZE
+                    if col == 'o':
+                        Water_block_night((x,y),[self.visible_sprites, self.obstacles_sprites])
+                    if col == 'w':
+                        Wet_block_night((x,y),[self.visible_sprites])
+                    if col == 'p':
+                        X_p = x
+                        Y_p = y
+                        Grass_block_night((x,y),[self.visible_sprites])
+                    if col == 'm':
+                        X_m = x
+                        Y_m = y
+                        Grass_block_night((x,y),[self.visible_sprites])
+                    if col == 't':
+                        Grass_block_night((x,y),[self.visible_sprites])
+                        X_t = x
+                        Y_t = y
+                    if col == ' ':
+                        Grass_block_night((x,y),[self.visible_sprites])
+
+
+
         Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
         for entity in self.entity_list:
             self.visible_sprites.add(entity)
@@ -113,7 +171,7 @@ class Level:
         self.day_pass = False
         
 
-    def run(self):
+    def run(self, num_map):
         #draw things
         #self.visible_sprites.draw(self.display_surface)
 
@@ -123,7 +181,7 @@ class Level:
         if not self.player.death():
             if pygame.time.get_ticks() >= DAY_DURATION and not self.day_pass:
                 self.day_pass = True
-                self.create_map_night()
+                self.create_map_night(num_map)
             self.visible_sprites.custom_draw(self.player)
             self.visible_sprites.update()
             self.visible_sprites.enemy_update(self.player)

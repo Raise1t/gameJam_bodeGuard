@@ -16,21 +16,72 @@ class Game:
 
         #backgroud du menu principale
         self.bg = pygame.image.load('texture/bg_menu.jpg')
-        self.level = Level()
+        #self.level = Level(num_map)
 
         # les différents modes
         self.is_playing = False
         self.is_command = False
         self.is_credits = False
         self.is_tuto = False
+        self.is_niveau = False
+
+        self.num_map = 1
+        self.is_lunch = False
+
+        #ecran pour choisir le niveau
+    def affiche_niveau(self, screen):
+
+            #bouton niveau 1
+        niv1 = pygame.image.load('texture/niveau1.png')
+        niv1 = pygame.transform.scale(niv1, (386,70))
+        niv1_rect = niv1.get_rect()
+        niv1_rect.x = 319
+        niv1_rect.y = 300
+
+        screen.blit(niv1, (319,300))
+
+       
+
+            #bouton niveau 2
+        niv2 = pygame.image.load('texture/niveau2.png')
+        niv2 = pygame.transform.scale(niv2, (386,70))
+        niv2_rect = niv2.get_rect()
+        niv2_rect.x = 319
+        niv2_rect.y = 400
+
+        screen.blit(niv2, (319,400))
 
 
-    #maj des composants dés qu'ils sont lancészzzz
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if niv1_rect.collidepoint(event.pos):
+                    #retourne au menu principale
+                    self.is_niveau = False
+                    self.num_map = 1
+                    self.is_playing = True
+                elif niv2_rect.collidepoint(event.pos):
+                    #retourne au menu principale
+                    self.is_niveau = False
+                    self.num_map = 2
+                    self.is_playing = True
+
+                
+
+
+
+
+
+
+    #maj des composants dés qu'ils sont lancés
     def lancer_jeu(self, screen):
 
         #code avec les initialisation du jeux et début
-
-        test = self.level.run()
+        if not self.is_lunch:
+            self.level = Level(self.num_map)
+            self.is_lunch = True
+        test = self.level.run(self.num_map)
         return test
 
 
@@ -117,6 +168,10 @@ class Game:
                 #déclanche la page du tutoriel
                 self.tuto(self.screen)
             #vérifier si le jeu n'a pas commencé
+            elif game.is_niveau:
+                #affiche la page du niveau
+                self.affiche_niveau(self.screen)
+            #menu principal
             else:
                 #importer charger le logo
                 logo = pygame.image.load('texture/logo.png')
@@ -169,7 +224,8 @@ class Game:
                 #vérifi pour savoir si le boutton play est cliqué
                     if play_rect.collidepoint(event.pos):
                         #jeux en mode lancer
-                        self.is_playing = True
+                        self.is_niveau = True
+                        #self.is_playing = True
                     if command_rect.collidepoint(event.pos):
                         #jeux en mode lancer
                         self.is_command = True
