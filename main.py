@@ -174,8 +174,27 @@ class Game:
     #affichage de la page du tuto
     def tuto(self, screen):
 
+        image = pygame.image.load('texture/but_jeu.png')
+        screen.blit(image, (0,0))
+
+        retour = pygame.image.load('texture/retour.png')
+        retour = pygame.transform.scale(retour, (386,70))
+        retour_rect = retour.get_rect()
+        retour_rect.x = 319
+        retour_rect.y = 600
+
+        screen.blit(retour, (319,600))
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if retour_rect.collidepoint(event.pos):
+                    #retourne au menu principale
+                    self.is_tuto = False
+            elif event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
     
-        pass
 
     def set_is_playing(self, bool):
        self.is_playing = bool
