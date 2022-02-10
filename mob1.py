@@ -28,7 +28,7 @@ class Mob1(Entity):
         self.obstacle_sprites = obstacle_sprites
 
         self.can_attack = True
-        self.attack_cooldown_v = 900
+        self.attack_cooldown_v = 400
         self.attack_at = 0
         self.temp = 0 #pour le cooldown
         self.u =0
