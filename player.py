@@ -36,7 +36,7 @@ class Player(Entity):
     @health.setter
     def health(self, newHealth):
         if newHealth < 0:
-            raise ValueError
+            self._health = 0
         else:
             self._health = newHealth
     
@@ -193,6 +193,4 @@ class Player(Entity):
 
     def hitted(self):
         self.health = self.health - ( self.stats['health'] * 0.77 )
-        if self.health <= 0:
-            self.health = 0
 
