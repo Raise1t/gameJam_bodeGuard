@@ -22,7 +22,7 @@ class Player(Entity):
         self.hitbox = self.rect.inflate(-10,0)
         
         #stats
-        self.stats = {'health': 100, 'attack': 10, 'speed': 8}
+        self.stats = {'health': 100, 'attack': 10, 'speed': 8, 'armor': 1}
         self._health = self.stats['health']
         self._speed = self.stats['speed']
         self._effects = {'Speed' : None, 'Strength' : None, 'Crack' : None}
@@ -102,6 +102,9 @@ class Player(Entity):
             if value:
                 if pygame.time.get_ticks() > value.startTime + value.effectDuration:
                     value.endEffect(self)
+    
+    def setArmor(self, armorValue):
+        self.stats['armor'] = armorValue
 
     def input(self):
         key = pygame.key.get_pressed()
@@ -192,5 +195,5 @@ class Player(Entity):
         self.move(self.speed)
 
     def hitted(self):
-        self.health = self.health - ( self.stats['health'] * 0.77 )
+        self.health = self.health - self.stats['armor'] * ( self.stats['health'] * 0.77 )
 

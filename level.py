@@ -4,6 +4,7 @@ import pygame
 from mob1 import Mob1
 from settings import *
 from speed_potion import SpeedPotion
+from crack_potion import CrackPotion
 from water_block import Water_block
 from water_block import Water_block_night
 from grass_block import Grass_block, Grass_block_night
@@ -83,7 +84,7 @@ class Level:
         self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
         SpeedPotion((3100, 2400), [self.visible_sprites, self.items_sprites])
-        SpeedPotion((3100, 2500), [self.visible_sprites, self.items_sprites])
+        CrackPotion((3100, 2500), [self.visible_sprites, self.items_sprites])
         self.player = Player(self, (X_p,Y_p), [self.visible_sprites], self.obstacles_sprites)
         self.entity_list.append(self.player)
         for texture in self.every_night_texture:
@@ -126,6 +127,10 @@ class Level:
         if item == "Potion of swiftness":
             self.visible_sprites.remove(self.player)
             SpeedPotion(coords, [self.visible_sprites, self.items_sprites])
+            self.visible_sprites.add(self.player)
+        elif item == "Potion of crack":
+            self.visible_sprites.remove(self.player)
+            CrackPotion(coords, [self.visible_sprites, self.items_sprites])
             self.visible_sprites.add(self.player)
 
 
