@@ -46,6 +46,7 @@ class Mob1(Entity):
             self.speed = self.speed * 1.12
             self.notice_radius_night = self.notice_radius_night * 1.12
             self.notice_radius = self.notice_radius_night
+
             self.day_pass = True
             self.night_pass =False
             self.game_start_at = pygame.time.get_ticks()
