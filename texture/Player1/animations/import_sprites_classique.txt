@@ -1,0 +1,27 @@
+self.sprites_idle_right = []
+        self.sprites_idle_right.append(pygame.image.load('texture/Player1/animations/right_idle/idle_1.png').convert_alpha())
+        self.sprites_idle_right.append(pygame.image.load('texture/Player1/animations/right_idle/idle_2.png').convert_alpha())
+        self.sprites_idle_right.append(pygame.image.load('texture/Player1/animations/right_idle/idle_3.png').convert_alpha())
+        self.sprites_idle_right.append(pygame.image.load('texture/Player1/animations/right_idle/idle_4.png').convert_alpha())
+
+        self.sprites_idle_left = []
+        self.sprites_idle_left.append(pygame.image.load('texture/Player1/animations/left_idle/idle_1.png').convert_alpha())
+        self.sprites_idle_left.append(pygame.image.load('texture/Player1/animations/left_idle/idle_2.png').convert_alpha())
+        self.sprites_idle_left.append(pygame.image.load('texture/Player1/animations/left_idle/idle_3.png').convert_alpha())
+        self.sprites_idle_left.append(pygame.image.load('texture/Player1/animations/left_idle/idle_4.png').convert_alpha())
+
+        self.sprites_w_right = []
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/right/right_1.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/right/right_2.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/right/right_3.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/right/right_4.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/right/right_5.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/right/right_6.png').convert_alpha())            
+            
+        self.sprites_w_left = []
+        self.sprites_w_left.append(pygame.image.load('texture/Player1/animations/left/left_1.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/left/left_2.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/left/left_3.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/left/left_4.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/left/left_5.png').convert_alpha())
+        self.sprites_w_right.append(pygame.image.load('texture/Player1/animations/left/left_6.png').convert_alpha()) 

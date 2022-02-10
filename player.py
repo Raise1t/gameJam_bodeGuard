@@ -3,6 +3,7 @@ from ast import If
 from curses import KEY_DOWN
 from operator import getitem
 from xxlimited import new
+from tkinter.font import families
 #from typing_extensions import Self
 import pygame
 from sympy import false
@@ -13,7 +14,9 @@ from settings import *
 from item import Item
 
 
+
 class Player(Entity):
+
     def __init__(self,level,pos,groups,obstacle_sprites) -> None:
         super().__init__(groups)
         self.__level = level
@@ -36,28 +39,68 @@ class Player(Entity):
         self.health = self.stats['health']
         self.speed = self.stats['speed']
 
+        #self.image = pygame.image.load('texture/player.png').convert_alpha()
+        self.path = 'texture/Player1/animations/'
+        self.sprites = {'left': [],'right': [], 'right_idle':[],'left_idle':[]}
+
+
+        
+        self.sprites['right_idle'].append(pygame.image.load(self.path + 'right_idle/idle_1.png').convert_alpha())
+        self.sprites['right_idle'].append(pygame.image.load(self.path + 'right_idle/idle_2.png').convert_alpha())
+        self.sprites['right_idle'].append(pygame.image.load(self.path + 'right_idle/idle_3.png').convert_alpha())
+        self.sprites['right_idle'].append(pygame.image.load(self.path + 'right_idle/idle_4.png').convert_alpha())
+
+        #self.sprites_idle_left
+        self.sprites['left_idle'].append(pygame.image.load(self.path + 'left_idle/idle_1.png').convert_alpha())
+        self.sprites['left_idle'].append(pygame.image.load(self.path + 'left_idle/idle_2.png').convert_alpha())
+        self.sprites['left_idle'].append(pygame.image.load(self.path + 'left_idle/idle_3.png').convert_alpha())
+        self.sprites['left_idle'].append(pygame.image.load(self.path + 'left_idle/idle_4.png').convert_alpha())
+
+        #self.sprites_w_right = []
+        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_1.png').convert_alpha())
+        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_2.png').convert_alpha())
+        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_3.png').convert_alpha())
+        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_4.png').convert_alpha())
+        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_5.png').convert_alpha())
+        self.sprites['right'].append(pygame.image.load(self.path + 'right/right_6.png').convert_alpha())            
+            
+        #self.sprites_w_left = []
+        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_1.png').convert_alpha())
+        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_2.png').convert_alpha())
+        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_3.png').convert_alpha())
+        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_4.png').convert_alpha())
+        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_5.png').convert_alpha())
+        self.sprites['left'].append(pygame.image.load(self.path + 'left/left_6.png').convert_alpha())                      
+
+        #self.sprites_idle_left    
+
+        self.index = 0 #general index for sprites
+
+        self.speed_sprite = 0.35
+
+        self.image = self.sprites['right_idle'] [0]
+
+        self.rect = self.image.get_rect(topleft=pos)
+
+        self.obstacle_sprites = obstacle_sprites
+        self.hitbox = self.rect.inflate(-10, 0)
+
+        # idle
+        self.idle_right_animation = True
+        self.idle_left_animation = False
+        # walking
+        self.walk_right_animation = False
+        self.walk_left_animation = False
+
+        self.direction = pygame.math.Vector2()
+        self.status = 'right_idle'
+
+        self.right_direction = True
+        self.left_direction = False
+
 
 
     #########################################################################
-
-    @property
-    def health(self):
-        return self._health
-    
-    @health.setter
-    def health(self, newHealth):
-        if newHealth < 0:
-            self._health = 0
-        else:
-            self._health = newHealth
-    
-    @property
-    def speed(self):
-        return self._speed
-    
-    @speed.setter
-    def speed(self, newSpeed):
-        self._speed = newSpeed
     
     @property
     def selectedSlot(self):
@@ -116,21 +159,144 @@ class Player(Entity):
     
     def setArmor(self, armorValue):
         self.stats['armor'] = armorValue
+        
+
+    def wich_direction_stop(self): #if player stops, wich direction to look?
+        if self.right_direction:
+                self.idle_right_animation = True
+                self.idle_left_animation = False
+                self.walk_right_animation = False
+                self.walk_left_animation = False
+        if self.left_direction:
+                self.idle_left_animation =True    
+                self.idle_right_animation = False
+                self.walk_right_animation = False
+                self.walk_left_animation = False
+
+    def get_status(self): 
+        #idle
+        if self.direction.x == 0 and self.direction.y == 0:
+            if self.right_direction:
+                self.status = 'right_idle'
+            if self.left_direction:
+                self.status = 'left_idle'
+
+
+        elif self.direction.x == -1: #gauche
+            self.idle_left_animation = False
+            self.idle_right_animation = False
+            self.left_direction = True
+            self.right_direction = False
+            self.walk_right_animation = False
+            self.walk_left_animation = True
+            self.status = 'left'
+
+
+        elif self.direction.x == 1 :#droite
+            self.idle_left_animation = False
+            self.idle_right_animation = False
+            self.left_direction = False
+            self.right_direction = True
+            self.walk_right_animation = True
+            self.walk_left_animation = False
+            self.status = 'right'
+
+        elif self.direction.x == -1 and self.direction.y == -1 :# diagonale gauche haut
+            self.idle_left_animation = False
+            self.idle_right_animation = False
+            self.left_direction = True
+            self.right_direction = False
+            self.walk_right_animation = False
+            self.walk_left_animation = True
+            self.status = 'left'   
+
+        elif self.direction.x == -1 and self.direction.y == 1 :#diagonale gauche bas
+            self.idle_left_animation = False
+            self.idle_right_animation = False
+            self.left_direction = True
+            self.right_direction = False
+            self.walk_right_animation = False
+            self.walk_left_animation = True
+            self.status = 'left'
+
+        elif self.direction.x == 1 and self.direction.y == -1 :#diagonale droite haut            self.idle_left_animation = False
+            self.idle_left_animation = False
+            self.idle_right_animation = False
+            self.left_direction = False
+            self.right_direction = True
+            self.walk_right_animation = True
+            self.walk_left_animation = False
+            self.status = 'right'
+
+        elif self.direction.x == 1 and self.direction.y == -1:#diagonale droite bas            self.idle_left_animation = False
+            self.idle_left_animation = False
+            self.idle_right_animation = False
+            self.left_direction = False
+            self.right_direction = True
+            self.walk_right_animation = True
+            self.walk_left_animation = False
+            self.status = 'right'  
+
+        elif self.direction.x == 0 and self.direction.y == -1: # haut
+            if self.right_direction:
+                self.idle_left_animation = False
+                self.idle_right_animation = False
+                self.left_direction = False
+                self.right_direction = True
+                self.walk_right_animation = True
+                self.walk_left_animation = False
+                self.status = 'right'
+
+            if self.left_direction:
+                self.idle_left_animation = False
+                self.idle_right_animation = False
+                self.left_direction = True
+                self.right_direction = False
+                self.walk_right_animation = False
+                self.walk_left_animation = True
+                self.status = 'left'
+
+        elif self.direction.x == 0 and self.direction.y == 1: # bas
+            if self.right_direction:
+                self.idle_left_animation = False
+                self.idle_right_animation = False
+                self.left_direction = False
+                self.right_direction = True
+                self.walk_right_animation = True
+                self.walk_left_animation = False
+                self.status = 'right'
+                
+
+            if self.left_direction:
+                self.idle_left_animation = False
+                self.idle_right_animation = False
+                self.left_direction = True
+                self.right_direction = False
+                self.walk_right_animation = False
+                self.walk_left_animation = True
+                self.status = 'left'        
 
     def input(self):
         
         key = pygame.key.get_pressed()
         if key[pygame.K_z] or key[pygame.K_UP]:
             self.direction.y = -1
+            self.get_status()
+
         elif key[pygame.K_s] or key[pygame.K_DOWN]:
             self.direction.y = 1
+            self.get_status()
+            
         else:
             self.direction.y = 0
+            self.get_status()
 
         if key[pygame.K_d] or key[pygame.K_RIGHT]:
             self.direction.x = 1
+            self.get_status()
         elif key[pygame.K_q] or key[pygame.K_LEFT]:
             self.direction.x = -1
+            self.get_status()
         else:
             self.direction.x = 0
         
@@ -211,8 +377,8 @@ class Player(Entity):
     def is_day_or_night(self):
         self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
         if self.timer >= DAY_DURATION and not self.day_pass:
-            self.speed = self.speed*1.08
-            self.image = pygame.image.load('texture/player_night.png').convert_alpha()
+            self.speed = self.speed * 1.08
+            self.image = pygame.image.load('texture/player2.png').convert_alpha()
             self.day_pass = True
             self.night_pass =False
             self.game_start_at = pygame.time.get_ticks()
@@ -225,13 +391,6 @@ class Player(Entity):
             self.day_pass = False
             self.night_pass = True  
 
-    
-    def update(self):
-        
-        self.is_day_or_night()
-        self.input()
-        self.move(self.speed)
-
 
     #le joueur est mort
     def death(self):
@@ -242,14 +401,6 @@ class Player(Entity):
             return False
             #Game.set_is_playing(False)
             
-
-    #le joueur perd de la vie
-    def lost_life(self, pv_lost):
-        self.health = self.health - pv_lost
-  
-        print('pv =')
-        print(self.health)
-
     def reset(self):
         self.health = self.stats["health"]
         print('reset')
@@ -260,4 +411,29 @@ class Player(Entity):
         else:
             self.health = self.health - ( self.stats['health'] * 1/3 )
 
+
+
+            self.get_status()
+
+            # ANIMATIONS CONTROLER-----------------------------        
+
+    def animate(self):
+        
+        animation = self.sprites[self.status]
+        #loop over the frame index
+        self.index += self.speed_sprite
+        if self.index >= 4:
+            self.index = 0
+        #set the image
+        self.image = animation[int(self.index)]  
+        
+
+    def update(self):
+        self.is_day_or_night()
+        self.input()
+        self.animate()
+        self.move(self.speed)
+        #if pygame.time.get_ticks() >= DAY_DURATION:
+         #   self.animate()    
+        
 

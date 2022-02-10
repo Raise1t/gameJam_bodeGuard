@@ -92,7 +92,6 @@ class Game:
         is_running = self.level.run(self.num_map)
         
         if not is_running:
-            print('ici')
             self.is_launch = False
             self.level = Level(0)
             self.level.run(self.num_map)

@@ -103,7 +103,7 @@ class Level:
         potion = CrackPotion((3100, 2500), [self.visible_sprites, self.items_sprites])
         self.every_night_texture.append(potion)
 
-        self.player = Player(self, (X_p,Y_p), [self.visible_sprites], self.obstacles_sprites)
+        self.player = Player(self,(X_p,Y_p), [self.visible_sprites], self.obstacles_sprites)
         self.entity_list.append(self.player)
         for texture in self.every_night_texture:
             self.visible_sprites.remove(texture)
