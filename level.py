@@ -36,7 +36,9 @@ class Level:
         # day n night
         self.day_duration = DAY_DURATION
         self.night_duration = NIGHT_DURATION
+        self.game_start_at = pygame.time.get_ticks()
         self.day_pass = False
+        
 
     def create_map(self):
         X_m =[]
@@ -103,14 +105,16 @@ class Level:
     def run(self):
         #draw things
         #self.visible_sprites.draw(self.display_surface)
-        if pygame.time.get_ticks() >= DAY_DURATION and not self.day_pass:
+        self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
+        if self.timer >= DAY_DURATION and not self.day_pass:
             self.day_pass = True
             self.create_map_night()
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
         self.ui.display(self.player)
-
+        debug(self.timer)
+        
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
         super().__init__()

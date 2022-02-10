@@ -10,11 +10,11 @@ class Mob1(Entity):
         super().__init__(groups)
         self.sprite_type = 'enemy'
 
-        self.attack_radius = 50
-        self.notice_radius = 300
+        self.attack_radius = 30
+        self.notice_radius = 1500
 
         self.image = pygame.image.load('texture/mob1.png').convert_alpha()
-        self.stats = {'health': 100, 'attack': 10, 'speed': 3}
+        self.stats = {'health': 100, 'attack': 10, 'speed': 5.5}
         self.health = self.stats['health']
         self.speed = self.stats['speed']
 

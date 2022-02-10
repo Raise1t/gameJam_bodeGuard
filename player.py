@@ -15,11 +15,15 @@ class Player(Entity):
         self.hitbox = self.rect.inflate(-10,0)
 
         #stats
-        self.stats = {'health': 100, 'attack': 10, 'speed': 8}
+        self.stats = {'health': 100, 'attack': 10, 'speed': 6}
         self.health = self.stats['health']
         self.speed = self.stats['speed']
 
+        #day n night
+        self.game_start_at = pygame.time.get_ticks()
+
     def input(self):
+        
         key = pygame.key.get_pressed()
         if key[pygame.K_z] or key[pygame.K_UP]:
             self.direction.y = -1
@@ -36,7 +40,8 @@ class Player(Entity):
             self.direction.x = 0
 
     def update(self):
-        if pygame.time.get_ticks() >= DAY_DURATION:
+        self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
+        if self.timer >= DAY_DURATION:
             self.image = pygame.image.load('texture/player_night.png').convert_alpha()
         self.input()
         self.move(self.speed)
