@@ -13,6 +13,9 @@ from wet_block import Wet_block, Wet_block_night
 from player import Player
 from tente import Tente, Tente_night
 from ui import UI
+from bode import Bode, Bode_night
+from tree import *
+
 
 
 class Level:
@@ -61,10 +64,21 @@ class Level:
         Y_pc = []
         X_m =[]
         Y_m = []
+
+        X_a1 =[]
+        Y_a1 = []
+        X_a2 =[]
+        Y_a2 = []
+        X_a3 =[]
+        Y_a3 = []
+
         X_t = 0
         X_p = 0
         Y_p = 0
         Y_t = 0
+        X_b = 0
+        Y_b = 0
+        
         self.every_day_texture = []
         self.every_night_texture = []
         for row_index,row in enumerate(map):
@@ -102,6 +116,31 @@ class Level:
                     Y_pc.append(y)
                     self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
                     self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+
+
+                if col == 'b':
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+                    X_b = x
+                    Y_b = y
+
+                if col == 'a1':
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+                    X_a1.append(x)
+                    Y_a1.append(y)
+
+                if col == 'a2':
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+                    X_a2.append(x)
+                    Y_a2.append(y)
+
+                if col == 'a3':
+                    self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
+                    self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
+                    X_a3.append(x)
+                    Y_a3.append(y)
                 if col == ' ':
                     self.every_day_texture.append(Grass_block((x,y),[self.visible_sprites]))
                     self.every_night_texture.append(Grass_block_night((x,y),[self.visible_sprites]))
@@ -122,12 +161,35 @@ class Level:
             potion = CrackPotion((X_pc[i],Y_pc[i]), [self.visible_sprites, self.items_sprites])
             self.every_night_texture.append(potion)
             i += 1
+
+        i = 0
+        for a1 in X_a1:
+            tree = Tree1((X_a1[i],Y_a1[i]),[self.visible_sprites, self.obstacles_sprites])
+            self.every_day_texture.append(tree)
+            tree = Tree_night1((X_a1[i],Y_a1[i]),[self.visible_sprites, self.obstacles_sprites])
+            self.every_night_texture.append(tree)
+            i += 1
         
+        i = 0
+        for a2 in X_a2:
+            self.every_day_texture.append(Tree2((X_a2[i],Y_a2[i]),[self.visible_sprites, self.obstacles_sprites]))
+            self.every_night_texture.append(Tree_night2((X_a2[i],Y_a2[i]),[self.visible_sprites, self.obstacles_sprites]))
+            i += 1
+        i = 0
+        for pc in X_a3:
+            self.every_day_texture.append(Tree3((X_a3[i],Y_a3[i]),[self.visible_sprites, self.obstacles_sprites]))
+            self.every_night_texture.append(Tree_night3((X_a3[i],Y_a3[i]),[self.visible_sprites, self.obstacles_sprites]))
+            i += 1
+
         self.every_day_texture.append(Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
 
+        self.every_day_texture.append(Bode((X_b,Y_b),[self.visible_sprites, self.obstacles_sprites]))
+        self.every_night_texture.append(Bode_night((X_b,Y_b),[self.visible_sprites, self.obstacles_sprites]))
+
         self.player = Player(self,(X_p,Y_p), [self.visible_sprites], self.obstacles_sprites)
         self.entity_list.append(self.player)
+        
         for texture in self.every_night_texture:
             self.visible_sprites.remove(texture)
         
