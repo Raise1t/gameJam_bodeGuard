@@ -115,7 +115,7 @@ class Level:
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
         self.ui.display(self.player)
-
+        self.player.updateEffect()
 
     def interactEvent(self):
         for item in pygame.sprite.spritecollide(self.player, self.items_sprites, 1):

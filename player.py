@@ -25,7 +25,7 @@ class Player(Entity):
         self.stats = {'health': 100, 'attack': 10, 'speed': 8}
         self._health = self.stats['health']
         self._speed = self.stats['speed']
-        self._effects = {'Speed' : 0, 'Strength' : 0, 'Crack' : 0}
+        self._effects = {'Speed' : None, 'Strength' : None, 'Crack' : None}
 
     #########################################################################
 
@@ -91,17 +91,17 @@ class Player(Entity):
             count+=1
         return name
 
-    def addEffect(self, effect):
-        self._effects[effect] = pygame.time.get_ticks()
+    def addEffect(self, effect, potionObject):
+        self._effects[effect] = potionObject
     
     def removeEffect(self, effect):
-        self._effects[effect] = 0
+        self._effects[effect] = None
     
     def updateEffect(self):
-        pass
-        #for i in self.effects.values():
-
-
+        for key, value in self.effects.items():
+            if value:
+                if pygame.time.get_ticks() > value.startTime + value.effectDuration:
+                    value.endEffect(self)
 
     def input(self):
         key = pygame.key.get_pressed()
@@ -124,7 +124,7 @@ class Player(Entity):
             if item == "" or not Item.items[item].isConsumable:
                 self.__level.interactEvent()
             else:
-                Item.items[item].useItem(self)
+                Item.items[item].useItem(self, pygame.time.get_ticks())
 
         if key[pygame.K_r]:
             if len(self._inventory) > self._selectedSlot:
