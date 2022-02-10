@@ -56,6 +56,17 @@ class Game:
 
         screen.blit(niv2, (319,400))
 
+            #bouton niveau 3
+        niv3 = pygame.image.load('texture/niveau3.png')
+        niv3 = pygame.transform.scale(niv3, (386,70))
+        niv3_rect = niv3.get_rect()
+        niv3_rect.x = 319
+        niv3_rect.y = 500
+
+        screen.blit(niv3, (319,500))
+
+
+
 
 
 
@@ -71,9 +82,15 @@ class Game:
                     self.is_niveau = False
                     self.num_map = 2
                     self.is_playing = True
+                elif niv3_rect.collidepoint(event.pos):
+                    #retourne au menu principale
+                    self.is_niveau = False
+                    self.num_map = 3
+                    self.is_playing = True
             elif event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                
 
                 
 

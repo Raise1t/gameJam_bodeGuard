@@ -48,10 +48,13 @@ class Level:
 
         if num_map == 1:
             map= MAP_1
-        elif num_map == 2:
+        elif num_map ==2:
             map = MAP_2
+        elif num_map ==3:
+            map = MAP_3
         else:
             map = MAP_0
+
 
         X_m =[]
         Y_m = []
