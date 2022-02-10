@@ -91,7 +91,7 @@ class Game:
     def run(self):
         self.clock_sec = time.gmtime().tm_sec
         self.temp = self.clock_sec
-        
+ 
         while True:
 
 

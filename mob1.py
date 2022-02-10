@@ -77,11 +77,11 @@ class Mob1(Entity):
         if not self.can_attack:
             current_time = pygame.time.get_ticks()
             self.temp += current_time - self.u
-            print(self.temp)
+            #print(self.temp)
             if self.temp >= self.attack_cooldown_v:
                 self.temp = 0
                 self.u = current_time
-                print(self.temp)
+                #print(self.temp)
                 self.can_attack = True
         else:
             print('attack')

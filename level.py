@@ -3,6 +3,7 @@ from re import X
 import pygame
 from mob1 import Mob1
 from settings import *
+from speed_potion import SpeedPotion, SpeedPotion_night
 from water_block import Water_block
 from water_block import Water_block_night
 from grass_block import Grass_block, Grass_block_night
@@ -21,6 +22,7 @@ class Level:
         #self.visible_sprites = pygame.sprite.Group()
         self.visible_sprites = YSortCameraGroup()
         self.obstacles_sprites = pygame.sprite.Group()
+        self.items_sprites = pygame.sprite.Group()
 
         self.entity_list = []
 
@@ -38,6 +40,7 @@ class Level:
         self.night_duration = NIGHT_DURATION
         self.game_start_at = pygame.time.get_ticks()
         self.day_pass = False
+        self.night_pass = True
         
 
     def create_map(self):
@@ -81,7 +84,10 @@ class Level:
 
         self.every_day_texture.append(Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
-        self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
+        potion = SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
+        self.every_day_texture.append(potion)
+        self.every_night_texture.append(potion)
+        self.player = Player(self, (X_p,Y_p), [self.visible_sprites], self.obstacles_sprites)
         self.entity_list.append(self.player)
         for texture in self.every_night_texture:
             self.visible_sprites.remove(texture)
@@ -101,20 +107,59 @@ class Level:
         for entity in self.entity_list:
             self.visible_sprites.add(entity)
 
+    def return_to_day(self):
+        for entity in self.entity_list:
+            self.visible_sprites.remove(entity)
+
+        for texture in self.every_day_texture:
+            self.visible_sprites.add(texture)
+
+        for texture in self.every_night_texture:
+            self.visible_sprites.remove(texture)
+
+        for entity in self.entity_list:
+            self.visible_sprites.add(entity)
+
+
+    def is_day_or_night(self):
+        self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
+        if self.timer >= DAY_DURATION and not self.day_pass:
+
+            self.create_map_night()
+            self.day_pass = True
+            self.night_pass =False
+            self.game_start_at = pygame.time.get_ticks()
+            self.timer = 0
+
+        if self.timer >= NIGHT_DURATION and not self.night_pass:
+            self.game_start_at = pygame.time.get_ticks()
+            self.return_to_day()
+            self.day_pass = False
+            self.night_pass = True
 
     def run(self):
         #draw things
         #self.visible_sprites.draw(self.display_surface)
-        self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
-        if self.timer >= DAY_DURATION and not self.day_pass:
-            self.day_pass = True
-            self.create_map_night()
+        self.is_day_or_night()
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
         self.ui.display(self.player)
         debug(self.timer)
-        
+
+
+
+    def interactEvent(self):
+        for item in pygame.sprite.spritecollide(self.player, self.items_sprites, 1):
+            self.player.addToInventory(item)
+            del item
+    
+    def throwEvent(self, item, coords):
+        if item == "Potion of swiftness":
+            self.visible_sprites.remove(self.player)
+            SpeedPotion(coords, [self.visible_sprites, self.items_sprites])
+            self.visible_sprites.add(self.player)
+
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
         super().__init__()

@@ -1,15 +1,24 @@
-class Item :
+import pygame
+
+class Item(pygame.sprite.Sprite):
+
+    items = {}
     
-    def __init__(self, name, consumable, fuel) -> None:
-        self.__name = name
-        self.__consumable = consumable
-        self.__fuel = fuel
+    def __init__(self, group, name, consumable, fuel) -> None:
+        super().__init__(group)
+        self._name = name
+        self._consumable = consumable
+        self._fuel = fuel
+        Item.items[self._name] = self
+    
+    def getImage(self):
+        return self.image
     
     def getName(self):
-        return self.name
+        return self._name
     
     def isConsumable(self):
-        return self.consumable
+        return self._consumable
     
     def isFuel(self) : 
-        return self.fuel
+        return self._fuel
