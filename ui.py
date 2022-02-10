@@ -51,7 +51,7 @@ class UI:
         for key, value in player.effects.items():
             if value:
                 width, height = font.size(key)
-                pygame.draw.rect(self.display_surface, UI_BG_COLOR, pygame.Rect(WIDTH - (width + 15), y, WIDTH - 5, height + 10))
-                self.display_surface.blit(font.render(key, 1, UI_EFFECT_TEXT_COLOR), (WIDTH - (width + 5), y + 5))
+                pygame.draw.rect(self.display_surface, UI_BG_COLOR, pygame.Rect(WIDTH - (width + 15), y, width + 10, height + 5))
+                self.display_surface.blit(font.render(key, 1, UI_EFFECT_TEXT_COLOR), (WIDTH - (width + 10), y + 5))
                 y = y + height + 10
 
