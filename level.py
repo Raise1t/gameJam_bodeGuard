@@ -79,17 +79,12 @@ class Level:
             self.entity_list.append(Mob1((X_m[i],Y_m[i]),[self.visible_sprites], self.obstacles_sprites))
             i+=1
 
-<<<<<<< HEAD
-        Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites])
+        self.every_day_texture.append(Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
+        self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
         SpeedPotion((3100, 2400), [self.visible_sprites, self.items_sprites])
         SpeedPotion((3100, 2500), [self.visible_sprites, self.items_sprites])
-        self.player = Player(self, (X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
-=======
-        self.every_day_texture.append(Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
-        self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         self.player = Player((X_p,Y_p),[self.visible_sprites], self.obstacles_sprites)
->>>>>>> main
         self.entity_list.append(self.player)
         for texture in self.every_night_texture:
             self.visible_sprites.remove(texture)
