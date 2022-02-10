@@ -99,7 +99,6 @@ class Level:
         self.every_day_texture.append(Tente((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         self.every_night_texture.append(Tente_night((X_t,Y_t),[self.visible_sprites, self.obstacles_sprites]))
         potion = SpeedPotion((3100, 2300), [self.visible_sprites, self.items_sprites])
-        self.every_day_texture.append(potion)
         self.every_night_texture.append(potion)
         potion = CrackPotion((3100, 2500), [self.visible_sprites, self.items_sprites])
         self.every_night_texture.append(potion)
@@ -188,16 +187,23 @@ class Level:
     def interactEvent(self):
         for item in pygame.sprite.spritecollide(self.player, self.items_sprites, 1):
             self.player.addToInventory(item)
+            if item in self.every_day_texture:
+                self.every_day_texture.remove(item)
+            if item in self.every_night_texture:
+                self.every_night_texture.remove(item)
+
             del item
     
     def throwEvent(self, item, coords):
         if item == "Potion of swiftness":
             self.visible_sprites.remove(self.player)
-            SpeedPotion(coords, [self.visible_sprites, self.items_sprites])
+            potion = SpeedPotion(coords, [self.visible_sprites, self.items_sprites])
+            self.every_night_texture.append(potion)
             self.visible_sprites.add(self.player)
         elif item == "Potion of crack":
             self.visible_sprites.remove(self.player)
-            CrackPotion(coords, [self.visible_sprites, self.items_sprites])
+            potion = CrackPotion(coords, [self.visible_sprites, self.items_sprites])
+            self.every_night_texture.append(potion)
             self.visible_sprites.add(self.player)
     
     def updatePlayerEffect(self):
