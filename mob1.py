@@ -11,15 +11,11 @@ class Mob1(Entity):
         super().__init__(groups)
         self.sprite_type = 'enemy'
 
-        self.attack_radius = 30
-        self.notice_radius = 1500
+        self.attack_radius = 40
+        self.notice_radius = 500
 
-        #self.image = pygame.image.load('texture/mob1.png').convert_alpha()
-        #self.stats = {'health': 100, 'attack': 50, 'speed': 3}
-        #self.attack = self.stats['attack']
-
-        self.image = pygame.image.load('texture/mob1_night.png').convert_alpha()
-        self.stats = {'health': 100, 'attack': 10, 'speed': 5.5}
+        self.image = pygame.image.load('texture/mob1.png').convert_alpha()
+        self.stats = {'health': 100, 'attack': 10, 'speed': 4.5}
 
         self.health = self.stats['health']
         self.speed = self.stats['speed']
@@ -29,11 +25,40 @@ class Mob1(Entity):
         self.obstacle_sprites = obstacle_sprites
 
         self.can_attack = True
-        self.attack_cooldown_v = 400
+        self.attack_cooldown_v = 900
+        self.attack_at = 0
         self.temp = 0 #pour le cooldown
         self.u =0
 
+        #day n night
+        self.game_start_at = pygame.time.get_ticks()
+        self.day_pass = False
+        self.night_pass = True
+
+    def is_day_or_night(self):
+        self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
+
+        if self.timer >= DAY_DURATION and not self.day_pass:
+            self.image = pygame.image.load('texture/mob1_night.png').convert_alpha()
+            self.speed = self.speed * 1.4
+            self.notice_radius = 1500
+            self.day_pass = True
+            self.night_pass =False
+            self.game_start_at = pygame.time.get_ticks()
+            self.timer = 0
+
+        if self.timer >= NIGHT_DURATION and not self.night_pass:
+           
+            self.game_start_at = pygame.time.get_ticks()
+            self.image = pygame.image.load('texture/mob1.png').convert_alpha()
+            self.notice_radius = 500
+            self.day_pass = False
+            self.night_pass = True  
+    
+    
+    
     def update(self):
+        self.is_day_or_night()
         self.move(self.speed)
 
     def enemy_update(self,player):
@@ -65,16 +90,14 @@ class Mob1(Entity):
     
     def actions(self,player):
         if self.status == 'attack':
-            self.attack_time = pygame.time.get_ticks()
-            player.hitted()
-            self.can_attack =False
             self.attack_cooldown()
-            self.attack_player(player)
-            
-            
+            player.hitted()
+            self.status
 
         elif self.status == 'move':
             self.direction = self.get_player_distance_direction(player)[1]
+            self.attack_cooldown()
+            
 
         else:
             self.direction = pygame.math.Vector2()
@@ -82,19 +105,16 @@ class Mob1(Entity):
 
 
     def attack_cooldown(self):
+        #print('le mob peut attaquer :', self.can_attack)
         
         if not self.can_attack:
-            current_time = pygame.time.get_ticks()
-            self.temp += current_time - self.u
-            #print(self.temp)
-            if self.temp >= self.attack_cooldown_v:
-                self.temp = 0
-                self.u = current_time
-                #print(self.temp)
+            
+            count_ticks = (pygame.time.get_ticks() - self.attack_at)
+
+            #print(self.temp)            
+            if count_ticks >= self.attack_cooldown_v:
                 self.can_attack = True
         else:
-            print('attack')
 
-    def attack_player(self, player):
-        player.lost_life(self.attack)
-    
+            self.attack_at = pygame.time.get_ticks()
+            self.can_attack = False

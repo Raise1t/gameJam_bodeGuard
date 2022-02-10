@@ -15,8 +15,8 @@ UI_BG_COLOR = 100,100,100
 UI_BORDER_COLOR = 0,0,0
 
 #day n night
-DAY_DURATION = 20 # en sec
-NIGHT_DURATION = 25 # en sec
+DAY_DURATION = 3 # en sec
+NIGHT_DURATION = 5 # en sec
 
 # number of tile 26 x 25
 MAP_1 = [

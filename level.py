@@ -26,6 +26,7 @@ class Level:
         self.items_sprites = pygame.sprite.Group()
 
         self.entity_list = []
+        self.map = num
 
         #get game screen space
         self.display_surface = pygame.display.get_surface()
@@ -42,6 +43,7 @@ class Level:
         self.game_start_at = pygame.time.get_ticks()
         self.day_pass = False
         self.night_pass = True
+
         
 
     def create_map(self, num_map):
@@ -139,7 +141,7 @@ class Level:
         self.timer = (pygame.time.get_ticks() - self.game_start_at) / 1000
         if self.timer >= DAY_DURATION and not self.day_pass:
 
-            self.create_map_night()
+            self.create_map_night(self.map)
             self.day_pass = True
             self.night_pass =False
             self.game_start_at = pygame.time.get_ticks()
@@ -155,16 +157,14 @@ class Level:
     def run(self, num_map):
         #draw things
         #self.visible_sprites.draw(self.display_surface)
-
+        
         if not self.player.death():
-            if pygame.time.get_ticks() >= DAY_DURATION and not self.day_pass:
-                self.day_pass = True
-                self.create_map_night(num_map)
+            
+            self.is_day_or_night()
             self.visible_sprites.custom_draw(self.player)
             self.visible_sprites.update()
             self.visible_sprites.enemy_update(self.player)
             self.ui.display(self.player)
-            self.is_day_or_night()
             debug(self.timer)
             return True
         else:
