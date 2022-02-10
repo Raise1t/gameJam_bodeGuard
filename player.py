@@ -1,3 +1,4 @@
+
 from ast import If
 from curses import KEY_DOWN
 from operator import getitem
@@ -5,10 +6,10 @@ from xxlimited import new
 #from typing_extensions import Self
 import pygame
 from sympy import false
+import pygame, sys
 from entity import Entity
 from game import Game
 from settings import *
-from debug import debug
 from item import Item
 
 
@@ -30,10 +31,12 @@ class Player(Entity):
         self.night_pass = True
         
         #stats
-        self.stats = {'health': 100, 'attack': 10, 'speed': 8.5}
+        self.stats = {'health': 100, 'attack': 10, 'speed': 6.5, 'armor': 1}
+        self._effects = {'Speed' : None, 'Strength' : None, 'Crack' : None}
         self.health = self.stats['health']
         self.speed = self.stats['speed']
-        self._effects = {'Speed' : 0, 'Strength' : 0, 'Crack' : 0}
+
+
 
     #########################################################################
 
@@ -99,22 +102,20 @@ class Player(Entity):
             count+=1
         return name
 
-    def addEffect(self, effect):
-        self._effects[effect] = pygame.time.get_ticks()
+    def addEffect(self, effect, potionObject):
+        self._effects[effect] = potionObject
     
     def removeEffect(self, effect):
-        self._effects[effect] = 0
+        self._effects[effect] = None
     
     def updateEffect(self):
-        pass
-        #for i in self.effects.values():
-
-
-#fgknsfjibgsbfgj
-
-        #day n night
-        self.game_start_at = pygame.time.get_ticks()
-
+        for key, value in self.effects.items():
+            if value:
+                if pygame.time.get_ticks() > value.startTime + value.effectDuration:
+                    value.endEffect(self)
+    
+    def setArmor(self, armorValue):
+        self.stats['armor'] = armorValue
 
     def input(self):
         
@@ -133,23 +134,6 @@ class Player(Entity):
         else:
             self.direction.x = 0
         
-        if key[pygame.K_j]:
-            item = self.getItemNameFromSlot(self._selectedSlot)
-            if item == "" or not Item.items[item].isConsumable:
-                self.__level.interactEvent()
-            else:
-                Item.items[item].useItem(self)
-
-        if key[pygame.K_r]:
-            if len(self._inventory) > self._selectedSlot:
-                item = self.getItemNameFromSlot(self._selectedSlot)
-                self.removeFromInventory(item)
-                self.__level.throwEvent(item, (self.hitbox.x, self.hitbox.y))
-        
-        if key[pygame.K_i]:
-            self.selectedSlot = self.selectedSlot - 1
-        if key[pygame.K_o]:
-            self.selectedSlot = self.selectedSlot + 1
         if key[pygame.K_AMPERSAND]:
             self.selectedSlot = 0
         if key[233]:
@@ -159,6 +143,31 @@ class Player(Entity):
         if key[pygame.K_QUOTE]:
             self.selectedSlot = 3
         
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_j:
+                    item = self.getItemNameFromSlot(self._selectedSlot)
+                    if item == "" or not Item.items[item].isConsumable:
+                        self.__level.interactEvent()
+                    else:
+                        Item.items[item].useItem(self, pygame.time.get_ticks())
+
+                if event.key == pygame.K_r:
+                    if len(self._inventory) > self._selectedSlot:
+                        item = self.getItemNameFromSlot(self._selectedSlot)
+                        self.removeFromInventory(item)
+                        self.__level.throwEvent(item, (self.hitbox.x, self.hitbox.y))
+        
+                if event.key == pygame.K_i:
+                    self.selectedSlot = self.selectedSlot - 1
+                if event.key == pygame.K_o:
+                    self.selectedSlot = self.selectedSlot + 1
+                
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
     
     def move(self, speed):
         if self.direction.magnitude() != 0:
