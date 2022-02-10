@@ -127,6 +127,13 @@ class Level:
             self.visible_sprites.remove(self.player)
             CrackPotion(coords, [self.visible_sprites, self.items_sprites])
             self.visible_sprites.add(self.player)
+    
+    def updatePlayerEffect(self):
+        effects = []
+        for key, value in self.player.effects.items():
+            if value:
+                effects.append(key)
+        self.ui.showEffectDuration(effects)
 
 
 class YSortCameraGroup(pygame.sprite.Group):
