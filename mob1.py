@@ -60,6 +60,7 @@ class Mob1(Entity):
     def actions(self,player):
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
+            player.hitted()
             self.can_attack =False
             self.attack_cooldown()
 
