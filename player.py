@@ -1,12 +1,6 @@
-from ast import If
-from curses import KEY_DOWN
-from operator import getitem
-from xxlimited import new
-#from typing_extensions import Self
-import pygame
+import pygame, sys
 from entity import Entity
 from settings import *
-from debug import debug
 from item import Item
 
 class Player(Entity):
@@ -122,23 +116,6 @@ class Player(Entity):
         else:
             self.direction.x = 0
         
-        if key[pygame.K_j]:
-            item = self.getItemNameFromSlot(self._selectedSlot)
-            if item == "" or not Item.items[item].isConsumable:
-                self.__level.interactEvent()
-            else:
-                Item.items[item].useItem(self, pygame.time.get_ticks())
-
-        if key[pygame.K_r]:
-            if len(self._inventory) > self._selectedSlot:
-                item = self.getItemNameFromSlot(self._selectedSlot)
-                self.removeFromInventory(item)
-                self.__level.throwEvent(item, (self.hitbox.x, self.hitbox.y))
-        
-        if key[pygame.K_i]:
-            self.selectedSlot = self.selectedSlot - 1
-        if key[pygame.K_o]:
-            self.selectedSlot = self.selectedSlot + 1
         if key[pygame.K_AMPERSAND]:
             self.selectedSlot = 0
         if key[233]:
@@ -148,6 +125,31 @@ class Player(Entity):
         if key[pygame.K_QUOTE]:
             self.selectedSlot = 3
         
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_j:
+                    item = self.getItemNameFromSlot(self._selectedSlot)
+                    if item == "" or not Item.items[item].isConsumable:
+                        self.__level.interactEvent()
+                    else:
+                        Item.items[item].useItem(self, pygame.time.get_ticks())
+
+                if event.key == pygame.K_r:
+                    if len(self._inventory) > self._selectedSlot:
+                        item = self.getItemNameFromSlot(self._selectedSlot)
+                        self.removeFromInventory(item)
+                        self.__level.throwEvent(item, (self.hitbox.x, self.hitbox.y))
+        
+                if event.key == pygame.K_i:
+                    self.selectedSlot = self.selectedSlot - 1
+                if event.key == pygame.K_o:
+                    self.selectedSlot = self.selectedSlot + 1
+                
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
     
     def move(self, speed):
         if self.direction.magnitude() != 0:

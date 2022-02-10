@@ -1,5 +1,3 @@
-from distutils.log import debug
-from re import X
 import pygame
 from mob1 import Mob1
 from settings import *
@@ -11,10 +9,7 @@ from grass_block import Grass_block, Grass_block_night
 from wet_block import Wet_block, Wet_block_night
 from player import Player
 from tente import Tente, Tente_night
-from debug import debug
 from ui import UI
-import time
-from entity import Entity
 
 
 class Level:
