@@ -40,7 +40,7 @@ class Mob1(Entity):
 
         if self.timer >= DAY_DURATION and not self.day_pass:
             self.image = pygame.image.load('texture/mob1_night.png').convert_alpha()
-            self.speed = self.speed * 1.4
+            self.speed = self.speed * 1.2
             self.notice_radius = 1500
             self.day_pass = True
             self.night_pass =False

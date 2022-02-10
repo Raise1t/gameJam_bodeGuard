@@ -57,7 +57,7 @@ class Game:
         screen.blit(niv2, (319,400))
 
             #bouton niveau 3
-        niv3 = pygame.image.load('texture/niveau2.png')
+        niv3 = pygame.image.load('texture/niveau3.png')
         niv3 = pygame.transform.scale(niv3, (386,70))
         niv3_rect = niv3.get_rect()
         niv3_rect.x = 319
