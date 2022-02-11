@@ -150,7 +150,7 @@ class Game:
         #bouton retour
         
 
-        image = pygame.image.load('texture/noir.jpg')
+        image = pygame.image.load('texture/crédits.png')
         screen.blit(image, (0,0))
 
         retour = pygame.image.load('texture/retour.png')
