@@ -45,32 +45,32 @@ class Game:
 
             #bouton niveau 1
         niv1 = pygame.image.load('texture/niveau1.png')
-        niv1 = pygame.transform.scale(niv1, (386,70))
+        niv1 = pygame.transform.scale(niv1, (346,83))
         niv1_rect = niv1.get_rect()
-        niv1_rect.x = 319
+        niv1_rect.x = 340
         niv1_rect.y = 300
 
-        screen.blit(niv1, (319,300))
+        screen.blit(niv1, (340,300))
 
        
 
             #bouton niveau 2
         niv2 = pygame.image.load('texture/niveau2.png')
-        niv2 = pygame.transform.scale(niv2, (386,70))
+        niv2 = pygame.transform.scale(niv2, (345,83))
         niv2_rect = niv2.get_rect()
-        niv2_rect.x = 319
+        niv2_rect.x = 340
         niv2_rect.y = 400
 
-        screen.blit(niv2, (319,400))
+        screen.blit(niv2, (340,400))
 
             #bouton niveau 3
         niv3 = pygame.image.load('texture/niveau3.png')
-        niv3 = pygame.transform.scale(niv3, (386,70))
+        niv3 = pygame.transform.scale(niv3, (346,83))
         niv3_rect = niv3.get_rect()
-        niv3_rect.x = 319
+        niv3_rect.x = 340
         niv3_rect.y = 500
 
-        screen.blit(niv3, (319,500))
+        screen.blit(niv3, (340,500))
 
 
 
